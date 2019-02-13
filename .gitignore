@@ -1,0 +1,10 @@
+.idea/
+node_modules/
+.DS_Store
+.vscode/
+.npm
+.env
+*.log
+logs/
+pids/
+*.pid
