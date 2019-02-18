@@ -97,7 +97,7 @@ void token::retire( asset quantity, string memo )
        s.supply -= quantity;
     });
 
-    sub_balance( st.issuer, quantity );
+    sub_balance( st.issuer, quantity, st.issuer );
 }
 
 void token::transfer( name    from,
@@ -122,17 +122,17 @@ void token::transfer( name    from,
 
     //auto payer = has_auth( to ) ? to : from;
     
-    sub_balance( from, quantity );
+    sub_balance( from, quantity, st.issuer );
     add_balance( to, quantity, st.issuer );
 }
 
-void token::sub_balance( name owner, asset value ) {
+void token::sub_balance( name owner, asset value, name ram_payer ) {
    accounts from_acnts( _self, owner.value );
 
    const auto& from = from_acnts.get( value.symbol.code().raw(), "no balance object found" );
    eosio_assert( from.balance.amount >= value.amount, "overdrawn balance" );
 
-   from_acnts.modify( from, owner, [&]( auto& a ) {
+   from_acnts.modify( from, ram_payer, [&]( auto& a ) {
          a.balance -= value;
       });
 }

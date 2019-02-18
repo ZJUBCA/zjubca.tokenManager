@@ -67,7 +67,7 @@ namespace eosio {
          struct [[eosio::table]] currency_stats {
             asset    supply;
             asset    max_supply;
-            // asset    fixed_unlock_amount;
+            // asset    unlock_amount_pertime;
             // uint32_t next_unlock_time;
             name     issuer;
 
@@ -77,7 +77,7 @@ namespace eosio {
          typedef eosio::multi_index< "accounts"_n, account > accounts;
          typedef eosio::multi_index< "stat"_n, currency_stats > stats;
 
-         void sub_balance( name owner, asset value );
+         void sub_balance( name owner, asset value, name ram_payer );
          void add_balance( name owner, asset value, name ram_payer );
    };
 
