@@ -22,9 +22,11 @@ void token::create( name   issuer,
     eosio_assert( existing == statstable.end(), "token with symbol already exists" );
 
     statstable.emplace( _self, [&]( auto& s ) {
-       s.supply.symbol = maximum_supply.symbol;
-       s.max_supply    = maximum_supply;
-       s.issuer        = issuer;
+       s.supply.symbol           = maximum_supply.symbol;
+       s.max_supply              = maximum_supply;
+       s.release_amount_pertime   = maximum_supply / 100;
+       s.next_release_day        = 1550160000;
+       s.issuer                  = issuer;
     });
 }
 
@@ -73,6 +75,20 @@ void token::issue( name to, asset quantity, string memo )
       SEND_INLINE_ACTION( *this, transfer, { {st.issuer, "active"_n} },
                           { st.issuer, to, quantity, memo }
       );
+    }
+
+    // update next release day
+    if(now() >= st.next_release_day){
+       if(days_since_2019valentine < 90){
+          statstable.modify( st, same_payer, [&]( auto& s ) {
+            s.next_release_day = 1550073600 + (days_since_2019valentine + 1) * seconds_per_day;
+          });
+       }
+       else{
+          statstable.modify( st, same_payer, [&]( auto& s ) {
+            s.next_release_day = -1;
+          });
+       }
     }
 }
 

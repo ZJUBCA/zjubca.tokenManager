@@ -67,8 +67,8 @@ namespace eosio {
          struct [[eosio::table]] currency_stats {
             asset    supply;
             asset    max_supply;
-            // asset    unlock_amount_pertime;
-            // uint32_t next_unlock_time;
+            asset    release_amount_pertime;
+            uint32_t next_release_day;
             name     issuer;
 
             uint64_t primary_key()const { return supply.symbol.code().raw(); }

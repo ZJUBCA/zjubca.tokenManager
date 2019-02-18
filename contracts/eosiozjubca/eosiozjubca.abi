@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Feb 17 18:08:34 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb 18 23:23:41 2019",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -51,6 +51,14 @@
                 {
                     "name": "max_supply",
                     "type": "asset"
+                },
+                {
+                    "name": "release_amount_pertime",
+                    "type": "asset"
+                },
+                {
+                    "name": "next_release_day",
+                    "type": "uint32"
                 },
                 {
                     "name": "issuer",
