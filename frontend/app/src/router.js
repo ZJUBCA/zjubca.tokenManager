@@ -1,23 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-
+import shouye from './components/shouye.vue'
+import allfenye from './components/allfenye.vue'
+import sign from './components/sign.vue'
+import regis from './components/regis.vue'
 Vue.use(Router)
-
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
+    { path: '/',
+      // path: '/shouye',
+      name: 'shouye',
+      component: shouye
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      path: '/allfenye',
+      name: 'allfenye',
+      component: allfenye
+    },
+    {
+      path: '/sign',
+      name: 'sign',
+      component: sign
+    },
+    {
+      path: '/regis',
+      name: 'regis',
+      component: regis
+    },
   ]
 })
