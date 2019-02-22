@@ -1,8 +1,10 @@
 <template>
     <div style="text-align:center">
-        <ul>
-            <li v-for="item in items" v-bind:key="item.name">...</li>
-        </ul>    
+            <md-table v-model="items">
+                <md-table-row slot="md-table-row" slot-scope="{ item }">
+                <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" >{{v}}</md-table-cell>
+            </md-table-row>
+            </md-table>
         <mo-paging 
                 :page-index="currentPage" 
                 :total="count" 
@@ -24,6 +26,7 @@
                 currentPage : 1, //当前页码
                 count : 0, //总记录数
                 items : []
+
             }
         },
         methods : {
@@ -38,9 +41,9 @@
                 //     this.count = body.count
                 //     this.items = body.list
                 // })
-                this.count=300;
-                for(var i=0;i<25;i++){
-                    this.items[i]={"name":i,"id":i};
+                this.count=100;
+                for(var i=0;i<10;i++){
+                    this.items[i]={"name":i,"page":this.currentPage};
                 }
             },
 

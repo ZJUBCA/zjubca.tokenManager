@@ -2,16 +2,15 @@
   <div class="centered-container">
     <md-content class="md-elevation-3">
 
-      <div class="title">
-        <!-- <img src="https://vuematerial.io/assets/logo-color.png"> -->
+      <!-- <div class="title">
         <div class="md-title">ZJUBCA</div>
         <div class="md-body-1">登陆</div>
       </div>
 
       <div class="form">
         <md-field>
-          <label>E-mail</label>
-          <md-input v-model="login.email" autofocus></md-input>
+          <label>Account Name</label>
+          <md-input v-model="login.AccountName" autofocus></md-input>
         </md-field>
 
         <md-field md-has-password>
@@ -27,24 +26,30 @@
 
       <div class="loading-overlay" v-if="loading">
         <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-      </div>
-
+      </div> -->
+      <div>{{message}}</div>
     </md-content>
     <div class="background" />
   </div>
 </template>
 
 <script>
+import ScatterJS from 'scatterjs-core'
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+import Eos from 'eosjs'
 export default {
   name: "App",
   data() {
     return {
       loading: false,
       login: {
-        email: "",
+        AccountName: "",
         password: ""
       }
     };
+  },
+  computed:{
+    message:function(){this.mess();return 0;},
   },
   methods: {
     auth() {
@@ -56,9 +61,53 @@ export default {
       }, 5000);
     },
     regis(){
+    },
+    mess(){
+      ScatterJS.plugins(new ScatterEOS());
 
+      ScatterJS.scatter.connect('ZJUBCA.VOTE', {
+        initTimeout: 10000,
+      }).then(async connected => {
+        if (!connected) {
+          alert('please unlock your scatter');
+          return false
+        }
+        const network = {
+          blockchain: 'eos',
+          protocol: 'https',
+          host: 'api.eosnewyork.io',
+          port: 443,
+          chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
+        };
+
+        let scatter = ScatterJS.scatter;
+        await scatter.getIdentity({accounts: [network]}).then(identity=>{console.log(identity)});
+        console.log(scatter.identity.accounts)
+        const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+        const eos = scatter.eos(network, Eos, {expireInSeconds: 20});
+
+        //console.log(account)
+        console.log(eos)
+
+        Vue.prototype.$scatter = scatter;
+        Vue.prototype.$account = account;
+        Vue.prototype.$eos = eos;
+
+        // Transaction Example
+        // const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
+        //
+        // eos.transfer(account.name, 'helloworld', '1.0000 EOS', 'memo', transactionOptions).then(trx => {
+        //   // That's it!
+        //   console.log(`Transaction ID: ${trx.transaction_id}`);
+        // }).catch(error => {
+        //   console.error(error);
+        // });
+      })
     }
   }
+};
+export{
+  login
 };
 </script>
 

@@ -9,7 +9,7 @@
           </md-button>
         </div>
         <div class="md-toolbar-section-start" >
-          <md-title>首页</md-title>
+          <md-title>logo&ZJUBCA</md-title>
         </div>
         <md-autocomplete
           class="search"
@@ -34,9 +34,9 @@
       <md-app-drawer md-permanent="full">
         <md-toolbar class="md-transparent" md-elevation="0">
           <md-button class="md-icon-button md-dense md-primary">
-            <md-icon>person</md-icon>
+            <md-icon><router-link to="/account">person</router-link></md-icon>
           </md-button>
-            <md-button><router-link to="/sign">登陆</router-link></md-button>
+            <!-- <md-button><router-link to="/sign">登陆</router-link></md-button> -->
         </md-toolbar>
 
         <md-list>
@@ -47,17 +47,17 @@
 
           <md-list-item>
             <md-icon>send</md-icon>
-            <span class="md-list-item-text"><router-link to="/allfenye">交易</router-link></span>
+            <span class="md-list-item-text"><router-link to="/account">我的账户</router-link></span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>delete</md-icon>
-            <span class="md-list-item-text">交易相关</span>
+            <span class="md-list-item-text"><router-link to="/allfenye">待生效交易</router-link></span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>error</md-icon>
-            <span class="md-list-item-text">其他</span>
+            <span class="md-list-item-text"><router-link to="/member">成员信息</router-link></span>
           </md-list-item>
         </md-list>
       </md-app-drawer>
@@ -106,34 +106,16 @@
     text-align: center;
     border:1px rgb(107, 105, 105) dotted;
   }
-  // .zjutokeninfo{
-  //   width:40vw;
-  //   max-height:30vw;
-  //   display: flex;
-  // }
-  // #recentscroll {
-  //   max-width: 400px;
-  //   max-height: 200px;
-  //   overflow: auto;
-  // }
-  // #recent-flow{
-  //   display: flex;
-
-  // }
 </style>
 
 <script>
 import axios from 'axios';
-import {eos} from './main';
 export default {
   name: 'Normal',
   data(){
     return{
-      eosinfo:'',
-      totalnum:0,
-      totallock:0,      
       selectedEmployee:null,
-    employees: [
+      employees: [
       "Jim Halpert",
       "Dwight Schrute",
       "Michael Scott",
@@ -155,17 +137,10 @@ export default {
     
   },
   computed:{
-    message:function(){this.getTotalNum();return this.eosinfo},
+
   },
   methods:{
-    getchaininfo(){
-        eos.getInfo({}).then((result)=>
-        {console.log(result);this.eosinfo=result.chain_id;});
-    },
-    getTotalNum(){
-      console.log(eos.getCurrencyBalance('eosio.token','zjubcatokent','ZJUBCA'));
-     // eos.getCurrencyStats({code: "zjubcatokent", symbol: "ZJUBCA"}).then(function(result){console.log(result)})
-    }
+
   }
 }
 
