@@ -1,0 +1,76 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sat Feb 23 00:03:10 2019",
+    "version": "eosio::abi/1.0",
+    "structs": [
+        {
+            "name": "enroll",
+            "base": "",
+            "fields": [
+                {
+                    "name": "student_name",
+                    "type": "string"
+                },
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "eosaccount",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "getbyid",
+            "base": "",
+            "fields": [
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "member",
+            "base": "",
+            "fields": [
+                {
+                    "name": "student_name",
+                    "type": "string"
+                },
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "eosaccount",
+                    "type": "name"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "enroll",
+            "type": "enroll",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "getbyid",
+            "type": "getbyid",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "members",
+            "type": "member",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "abi_extensions": []
+}
