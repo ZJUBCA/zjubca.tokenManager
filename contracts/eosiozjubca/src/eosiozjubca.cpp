@@ -24,9 +24,12 @@ void token::create( name   issuer,
     statstable.emplace( _self, [&]( auto& s ) {
        s.supply.symbol           = maximum_supply.symbol;
        s.max_supply              = maximum_supply;
-       s.release_amount_pertime   = maximum_supply / 100;
-       s.next_release_day        = 1550160000;
        s.issuer                  = issuer;
+
+       s.frozen_amount           = maximum_supply * 90 / 100;    // freeze 90% tokens since foundation
+       s.release_amount_pertime  = maximum_supply * 3 / 100;   // unfreeze 3% every release day
+       s.released_times            = 0;
+       s.next_release_day        = 1538236800;              // 2018/9/30 00:00:00
     });
 }
 
@@ -48,22 +51,46 @@ void token::issue( name to, asset quantity, string memo )
 
     eosio_assert( quantity.symbol == st.supply.symbol, "symbol precision mismatch" );
     
-    // since 2019 valentine
-    uint32_t seconds_per_day = 3600 * 24;
-    uint32_t seconds_since_2019valentine = now() - 1550073600;
+    // ZJUBCA is founded on 2018/3/30 00:00:00 Unix time stamp: 1522339200
+    // Release date is set on 3.30 and 9.30 
+    uint64_t first_half = 3600 * 24 * 184; // first half: 3.30~9.30
+    uint64_t second_half_c = 3600 * 24 * 181; // second half for common year: 9.30~3.30
+    uint64_t second_half_l = 3600 * 24 * 182; // second half for leap year: 9.30~3.30
 
-    int64_t max_supply_amount = st.max_supply.amount;
-    auto frozen_amount = (int64_t)(max_supply_amount * 0.9);
-
-    // Frozen 90% token for 90 days, release 1% per day.
-    uint32_t days_since_2019valentine = seconds_since_2019valentine / seconds_per_day;
-    if (days_since_2019valentine >= 90){
-      frozen_amount = 0;
-    } else{
-      frozen_amount = (int64_t)max_supply_amount * (0.9 - 0.01 * days_since_2019valentine);
+    // Freeze 90% token for 15 years, release 3% every release day.
+    // update release date
+    if(now() >= st.next_release_day && st.released_times <= 30){
+       if(st.released_times < 30){
+          if(st.released_times % 2 == 1){ // first half
+             statstable.modify( st, same_payer, [&]( auto& s ) {
+               s.released_times += 1;
+               s.frozen_amount -= st.release_amount_pertime;
+               s.next_release_day += first_half;
+             });
+          }
+          else if(st.released_times % 8 == 2){ // second half for leap year
+            statstable.modify( st, same_payer, [&]( auto& s ) {
+               s.released_times += 1;
+               s.frozen_amount -= st.release_amount_pertime;
+               s.next_release_day += second_half_l;
+             });
+          }
+          else { // second half for common year
+            statstable.modify( st, same_payer, [&]( auto& s ) {
+               s.released_times += 1;
+               s.frozen_amount -= st.release_amount_pertime;
+               s.next_release_day += second_half_c;
+             });
+          }
+       }
+       else{
+          statstable.modify( st, same_payer, [&]( auto& s ) {
+            s.next_release_day = -1;
+          });
+       }
     }
 
-    eosio_assert( quantity.amount <= max_supply_amount - st.supply.amount - frozen_amount, "quantity exceeds available supply");
+    eosio_assert( quantity.amount <= st.max_supply.amount - st.supply.amount - st.frozen_amount.amount, "quantity exceeds available supply");
 
     statstable.modify( st, same_payer, [&]( auto& s ) {
        s.supply += quantity;
@@ -76,20 +103,7 @@ void token::issue( name to, asset quantity, string memo )
                           { st.issuer, to, quantity, memo }
       );
     }
-
-    // update next release day
-    if(now() >= st.next_release_day){
-       if(days_since_2019valentine < 90){
-          statstable.modify( st, same_payer, [&]( auto& s ) {
-            s.next_release_day = 1550073600 + (days_since_2019valentine + 1) * seconds_per_day;
-          });
-       }
-       else{
-          statstable.modify( st, same_payer, [&]( auto& s ) {
-            s.next_release_day = -1;
-          });
-       }
-    }
+   
 }
 
 void token::retire( asset quantity, string memo )

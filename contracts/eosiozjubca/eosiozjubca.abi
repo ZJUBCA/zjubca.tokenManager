@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb 18 23:23:41 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sat Feb 23 15:48:40 2019",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -53,16 +53,24 @@
                     "type": "asset"
                 },
                 {
+                    "name": "issuer",
+                    "type": "name"
+                },
+                {
+                    "name": "frozen_amount",
+                    "type": "asset"
+                },
+                {
                     "name": "release_amount_pertime",
                     "type": "asset"
                 },
                 {
                     "name": "next_release_day",
-                    "type": "uint32"
+                    "type": "uint64"
                 },
                 {
-                    "name": "issuer",
-                    "type": "name"
+                    "name": "released_times",
+                    "type": "uint64"
                 }
             ]
         },
