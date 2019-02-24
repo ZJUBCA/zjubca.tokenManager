@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sat Feb 23 00:03:10 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Feb 24 13:40:10 2019",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -17,16 +17,20 @@
                 {
                     "name": "eosaccount",
                     "type": "name"
+                },
+                {
+                    "name": "register_fee",
+                    "type": "asset"
                 }
             ]
         },
         {
-            "name": "getbyid",
+            "name": "erase",
             "base": "",
             "fields": [
                 {
-                    "name": "student_id",
-                    "type": "uint64"
+                    "name": "user",
+                    "type": "name"
                 }
             ]
         },
@@ -57,8 +61,8 @@
             "ricardian_contract": ""
         },
         {
-            "name": "getbyid",
-            "type": "getbyid",
+            "name": "erase",
+            "type": "erase",
             "ricardian_contract": ""
         }
     ],
