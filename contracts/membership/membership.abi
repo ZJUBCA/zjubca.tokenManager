@@ -1,6 +1,8 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Feb 24 13:40:10 2019",
-    "version": "eosio::abi/1.0",
+
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Feb 24 22:30:20 2019",
+    "version": "eosio::abi/1.1",
+
     "structs": [
         {
             "name": "enroll",
@@ -25,16 +27,7 @@
             ]
         },
         {
-            "name": "erase",
-            "base": "",
-            "fields": [
-                {
-                    "name": "user",
-                    "type": "name"
-                }
-            ]
-        },
-        {
+
             "name": "member",
             "base": "",
             "fields": [
@@ -59,11 +52,6 @@
             "name": "enroll",
             "type": "enroll",
             "ricardian_contract": ""
-        },
-        {
-            "name": "erase",
-            "type": "erase",
-            "ricardian_contract": ""
         }
     ],
     "tables": [
@@ -76,5 +64,6 @@
         }
     ],
     "ricardian_clauses": [],
+    "variants": [],
     "abi_extensions": []
 }
