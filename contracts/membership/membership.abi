@@ -1,15 +1,13 @@
 {
-
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Feb 24 22:30:20 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb 25 19:14:09 2019",
     "version": "eosio::abi/1.1",
-
     "structs": [
         {
             "name": "enroll",
             "base": "",
             "fields": [
                 {
-                    "name": "student_name",
+                    "name": "studentname",
                     "type": "string"
                 },
                 {
@@ -27,12 +25,11 @@
             ]
         },
         {
-
             "name": "member",
             "base": "",
             "fields": [
                 {
-                    "name": "student_name",
+                    "name": "studentname",
                     "type": "string"
                 },
                 {
@@ -42,6 +39,38 @@
                 {
                     "name": "eosaccount",
                     "type": "name"
+                },
+                {
+                    "name": "registration_date",
+                    "type": "uint64"
+                },
+                {
+                    "name": "expiration_date",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "quit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "renew",
+            "base": "",
+            "fields": [
+                {
+                    "name": "eosaccount",
+                    "type": "name"
+                },
+                {
+                    "name": "renewal",
+                    "type": "asset"
                 }
             ]
         }
@@ -51,6 +80,16 @@
         {
             "name": "enroll",
             "type": "enroll",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "quit",
+            "type": "quit",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "renew",
+            "type": "renew",
             "ricardian_contract": ""
         }
     ],
