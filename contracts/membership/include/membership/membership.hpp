@@ -22,10 +22,9 @@ class [[eosio::contract("membership")]] membership : public contract {
       [[eosio::action]]
       void quit(name user);
 
-      // [[eosio::action]]
-      // void renew( uint64_t student_id,
-      //             name     eosaccount,
-      //             asset    renew_fee){}
+      [[eosio::action]]
+      void renew( name     eosaccount,
+                  asset    renewal);
 
    private:
       struct [[eosio::table]] member {
@@ -37,12 +36,12 @@ class [[eosio::contract("membership")]] membership : public contract {
 
          uint64_t primary_key() const { return student_id; }
          uint64_t by_eosaccount() const { return eosaccount.value; }
-         // eosio::checksum256 by_studentname() const { return sha256(const_cast<char*>(studentname.c_str()), studentname.size() * sizeof(char));}
+         eosio::checksum256 by_studentname() const { return sha256(const_cast<char*>(studentname.c_str()), studentname.size() * sizeof(char));}
       };
 
       typedef eosio::multi_index< "members"_n, member, 
-      indexed_by<"eosaccount"_n, const_mem_fun<member, uint64_t, &member::by_eosaccount>>> members;
-      // indexed_by<"studentname"_n, const_mem_fun<member, eosio::checksum256, &member::by_studentname>>> members;
+      indexed_by<"eosaccount"_n, const_mem_fun<member, uint64_t, &member::by_eosaccount>>,
+      indexed_by<"studentname"_n, const_mem_fun<member, eosio::checksum256, &member::by_studentname>>> members;
 
       members _members;
 };
