@@ -34,15 +34,15 @@
 
                 <md-table-row>
                     <md-table-cell >Token 总量</md-table-cell>
-                    <md-table-cell>{{total}}</md-table-cell>
+                    <md-table-cell>{{max}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
                     <md-table-cell >Token 释放总量</md-table-cell>
-                    <md-table-cell>{{totalshifang}}</md-table-cell>
+                    <md-table-cell>{{supply}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
                     <md-table-cell >Token 锁仓总量</md-table-cell>
-                    <md-table-cell>{{totallock}}</md-table-cell>
+                    <md-table-cell>{{frozen_amount}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
                     <md-table-cell >Issuer</md-table-cell>
@@ -85,11 +85,15 @@
                 <md-table>
                 <md-table-row>
                     <md-table-cell >下一次解锁时间</md-table-cell>
-                    <md-table-cell>{{name}}</md-table-cell>
+                    <md-table-cell>{{next_release_day}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
                     <md-table-cell >下一次解锁数量</md-table-cell>
-                    <md-table-cell>{{name}}</md-table-cell>
+                    <md-table-cell>{{release_amount_pertime}}</md-table-cell>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-cell >释放次数</md-table-cell>
+                    <md-table-cell>{{released_times}}</md-table-cell>
                 </md-table-row>
                 </md-table>
                 </md-card-content>
@@ -111,16 +115,12 @@
                 </md-card-header>
 
                 <md-card-content >
-                      <md-table v-model="actions" md-fixed-header ref="cardTable">
-
-                        <md-table-row slot="md-table-row" slot-scope="{ item }">
-                          <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" >{{v}}</md-table-cell>
-                        </md-table-row>
-   
-                      </md-table>
-
-                <!-- <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-                <br> <br> <br> <br>  -->
+                  <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
+                    <md-table v-else v-model="actionss" md-fixed-header ref="cardTable">
+                      <md-table-row slot="md-table-row" slot-scope="{ item }">
+                        <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" @click="routerto(k)" >{{v}}</md-table-cell>
+                      </md-table-row>
+                    </md-table>
                 </md-card-content>
           </md-card>
           </div>
@@ -157,19 +157,23 @@ import {eos} from '../main';
         name: 'shouye',
         data(){
           return{
-            actions: [{name:1},{name:100}],
-            busy: false,
-            eosinfo:'',
-            totalnum:0,
-            totallock:0,   
-            totalshifang:0,   
+            actions: [],
+            actionss:[],
+            ok:0,
+            max_supply:'',
+            supply:'',
+            frozen_amount:'',
             issuer:'',
+            next_release_day:'',
+            release_amount_pertime:'',
+            released_times:'',
+            transactions:[]
           }
         },
         created:{
         },
         computed:{
-           total:function(){this.getTotalNum();return this.totalnum},
+           max:function(){this.getTotalNum();return this.max_supply},
         },
         mounted(){
           // let cardTable = this.$refs.cardTable
@@ -191,37 +195,65 @@ import {eos} from '../main';
 
         },
         methods: {
-          refresh:function(){
-              this.actions=[]
-              loadMore();
-          },
-          loadMore: function() {
-            this.busy = true;
+          // refresh:function(){
+          //     this.actions=[]
+          //     loadMore();
+          // },
+          // loadMore: function() {
+          //   this.busy = true;
       
-            setTimeout(() => {
+          //   setTimeout(() => {
            
-              for (var i = 0, j = 10; i < j; i++) {
-                this.actions.push({ name: count++ });
-              }
-              this.busy = false;
-            }, 1000);
-          },
-          //get token information
-          getchaininfo(){
-              eos.getInfo({}).then((result)=>{
-                //console.log(result);
-                this.eosinfo=result.chain_id;});
-          },
-          getTotalNum(){
-            //eos.getCurrencyBalance({code:'zjubcatokent',account:'iamlowesyang',symbol:'ZJUBCA'}).then(async result=>{console.log(result)});
-            eos.getCurrencyStats({code: "snwjyatkylin", symbol: "SWJ"}).then(async result=>{
-              //console.log(result);
-                                  this.totalnum=result.SWJ.max_supply;this.totalshifang=result.SWJ.supply;
-                                  this.totallock=0;this.issuer=result.SWJ.issuer;});
-            eos.getActions({account: 'eos'}).then(async result=>{
-                console.log(result);});
-            // eos.getCode({account:'iamlowesyang'}).then(async result=>{console.log(result)});
-            // eos.getBlock({block_num_or_id: 19282685}).then(result => { console.log(result) })
+          //     for (var i = 0, j = 10; i < j; i++) {
+          //       this.actions.push({ name: count++ });
+          //     }
+          //     this.busy = false;
+          //   }, 1000);
+          // },
+          // //get token information
+          // getchaininfo(){
+          //     eos.getInfo({}).then((result)=>{
+          //       //console.log(result);
+          //       this.eosinfo=result.chain_id;});
+          // },
+         async getTotalNum(){
+            eos.getTableRows({code: "zjubcatest11",scope:"AAA",table:"stat",json:"true"}).then(async result=>{
+              console.log(result);
+                                  this.max_supply=result.rows[0].max_supply;
+                                  this.supply=result.rows[0].supply;
+                                  this.frozen_amount=result.rows[0].frozen_amount;
+                                  this.issuer=result.rows[0].issuer;
+                                  this.release_amount_pertime=result.rows[0].release_amount_pertime;
+                                  this.released_times=result.rows[0].released_times;
+                                  this.next_release_day=result.rows[0].next_release_day;
+                                  });
+                             let n;
+          await  eos.getActions({"account_name":"zjubcatest11" , "pos": -1, "offset": -15}).then(async result=>{
+                console.log(result);
+                n=result.actions.length;
+                console.log(n);
+                for(var i=0;i<n;i++){
+                    this.actions[i]={"actionId":result.actions[n-i-1].account_action_seq,
+                                     "blockId":result.actions[n-i-1].block_num,
+                                     "block_time":result.actions[n-i-1].block_time,
+                                     "name":this.name};
+                }
+                });
+                for(var i=0;i<n;i++){
+                    await eos.getBlock(this.actions[i].blockId).then(async res=>{
+                      //console.log(res.transaction_mroot);
+                    this.transactions[i]=res.transaction_mroot});
+                }
+                for(var i=0;i<n;i++){
+                    console.log(this.transactions[i]);
+                    this.actionss[i]={"actionId":this.actions[i].actionId,
+                                     "blockId":this.actions[i].blockId,
+                                     //"transactionId":"{{<a @click='routerto' v-html>{{this.transactions[i]}}</a>}}",
+                                     "transactionId":this.transactions[i],
+                                     "block_time":this.actions[i].block_time,
+                                    };
+                }
+                this.ok=!this.ok;
           }
         }
     }

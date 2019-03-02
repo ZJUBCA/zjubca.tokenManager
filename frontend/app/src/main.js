@@ -90,7 +90,7 @@ const config = {
     expireInSeconds: 60,
     broadcast: true,
     verbose: false, // API activity
-    sign: true
+    sign: true,
   };
 const eos = EosApi(config);
 

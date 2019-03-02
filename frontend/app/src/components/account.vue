@@ -56,7 +56,7 @@
           <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
             <md-table v-else v-model="actionss" md-fixed-header ref="cardTable">
                 <md-table-row slot="md-table-row" slot-scope="{ item }">
-                <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" @click="routerto()">{{v}}</md-table-cell>
+                <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" @click="routerto(k)">{{v}}</md-table-cell>
             </md-table-row>
             </md-table>
         </md-card-content>
@@ -114,9 +114,9 @@ export default {
               const network = {
                 blockchain: 'eos',
                 protocol: 'https',
-                host: 'api.eosnewyork.io',
+                host: 'api-kylin.eoslaomao.com',
                 port: 443,
-                chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
+                chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
               };
 
               let scatter = ScatterJS.scatter;
@@ -135,20 +135,20 @@ export default {
             })
           },
       async  getAccountInfo() {
-            eos.getCurrencyBalance({code:'zjubcatokent',account:this.name,symbol:'ZJUBCA'}).then(result=>{console.log(result[0]);this.leftnum=result[0]});
+            eos.getCurrencyBalance({code:'zjubcatest11',account:this.name,symbol:'AAA'}).then(result=>{console.log(result[0]);this.leftnum=result[0]});
             
             // eos.getActions({account:this.name}).then(async result=>{console.log(result.actions[0]);
             //     this.actionId=result.actions[0].account_action_seq;this.blockId=result.actions[0].block_num;
             //     this.block_time=result.actions[0].block_time;});
             let n;
-          await  eos.getActions({account: this.name}).then(async result=>{
+          await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -15}).then(async result=>{
                 console.log(result);
                 n=result.actions.length;
                 console.log(n);
                 for(var i=0;i<n;i++){
-                    this.actions[i]={"actionId":result.actions[i].account_action_seq,
-                                     "blockId":result.actions[i].block_num,
-                                     "block_time":result.actions[i].block_time,
+                    this.actions[i]={"actionId":result.actions[n-i-1].account_action_seq,
+                                     "blockId":result.actions[n-i-1].block_num,
+                                     "block_time":result.actions[n-i-1].block_time,
                                      "name":this.name};
                 }
                 });
@@ -164,14 +164,70 @@ export default {
                                      //"transactionId":"{{<a @click='routerto' v-html>{{this.transactions[i]}}</a>}}",
                                      "transactionId":this.transactions[i],
                                      "block_time":this.actions[i].block_time,
-                                     "name":this.name
                                     };
                 }
                 this.ok=!this.ok;
+                this.getStudentInfo();
         },
-        routerto(){
-          this.$router.push({ name: 'transaction', params: { transactionId: this.transactionId }});
-        }
+        async getStudentInfo(){
+          ScatterJS.plugins(new ScatterEOS());
+
+          ScatterJS.scatter.connect('ZJUBCA.TOKEN', {
+            initTimeout: 10000,
+          }).then(async connected => {
+            if (!connected) {
+              console.log('please unlock your scatter');
+              return false
+            }
+            const network = {
+              blockchain: 'eos',
+              protocol: 'https',
+              host: 'api-kylin.eoslaomao.com',
+              port: 443,
+              chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
+            };
+
+            let scatter = ScatterJS.scatter;
+            await scatter.getIdentity({accounts: [network]});
+            const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+            const eos = scatter.eos(network, Eos, {expireInSeconds: 20});
+
+            console.log(account)
+            console.log(eos)
+            //   // Transaction Example
+
+            //const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
+            // eos.transfer(account.name, this.transfer.to, this.transfer.amount, this.transfer.memo, transactionOptions).then(trx => {
+            //     // That's it!
+            //     console.log(`Transaction ID: ${trx.transaction_id}`);
+            // }).catch(error => {
+            //     console.error(error);
+            // });
+            var res = await eos.member({
+                              actions: [
+                              {
+                                  account: "zjubcatest12", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                                  name: "member",
+                                  authorization: [{
+                                      actor: account.name,
+                                      permission: account.authority
+                                  }
+                                  ],
+                                  data: {
+                                      // studentname: this.studentInfo.FullName,
+                                      // student_id: this.studentInfo.studentId,
+                                      // eosaccount: this.studentInfo.EosId,
+                                  }
+                              }]
+                          }).then(res=>{console.log(res)}).catch(error => {
+                              console.error(error);
+                          });
+          alert("注册成功");
+        });
+    }
+        // routerto(k){
+        //   this.$router.push({ name: 'transaction', params: { transactionId: this.actions[k].transactionId }});
+        // }
     }
 }
 </script>

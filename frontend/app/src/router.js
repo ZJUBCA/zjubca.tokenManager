@@ -6,6 +6,7 @@ import sign from './components/sign.vue'
 import regis from './components/regis.vue'
 import account from './components/account.vue'
 import member from './components/member.vue'
+import transfer from './components/transfer.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -40,6 +41,11 @@ export default new Router({
       path: '/member',
       name: 'member',
       component: member
+    },
+    {
+      path: '/transfer',
+      name: 'transfer',
+      component: transfer
     },
   ]
 })

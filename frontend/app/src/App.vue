@@ -50,6 +50,11 @@
             <span class="md-list-item-text"><router-link to="/account">我的账户</router-link></span>
           </md-list-item>
 
+          <!-- <md-list-item>
+            <md-icon>delete</md-icon>
+            <span class="md-list-item-text"><router-link to="/transfer">转账</router-link></span>
+          </md-list-item> -->
+
           <md-list-item>
             <md-icon>delete</md-icon>
             <span class="md-list-item-text"><router-link to="/allfenye">待生效交易</router-link></span>
