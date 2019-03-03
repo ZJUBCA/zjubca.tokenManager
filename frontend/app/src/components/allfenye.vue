@@ -2,11 +2,21 @@
     <div style="text-align:center">
         <md-content>
             <!-- <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner> -->
-            <md-table v-model="actionss">
+            <!-- <md-table v-model="actionss">
                 <md-table-row slot="md-table-row" slot-scope="{ item }">
                 <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" >{{v}}</md-table-cell>
             </md-table-row>
-            </md-table>
+            </md-table> -->
+            <!-- <table class="table table-bordered">
+            <tbody>
+            <tr v-for="n in actionss">
+            <td>{{items[2*n].user}}</td>
+            <td>{{items[2*n].msg}}</td>
+            <td>{{items[2*n+1].user}}</td>
+            <td>{{items[2*n+1].msg}}</td>
+            </tr>
+            </tbody>
+            </table> -->
         </md-content>
         <mo-paging 
                 :page-index="currentPage" 
