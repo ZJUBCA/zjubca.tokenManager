@@ -1,7 +1,8 @@
 <template>
     <div  class="shouye" >
+      
         <div id="content1">
-          <div style="display:flex;flex-grow:1;flex-direction:column;justify-content: space-around;width:10vw">
+          <div style="display:flex;flex-direction:rol;justify-content: space-around;">
           <div class="zjutokeninfo">
               <md-card class="zjutokeninfo">
                 <md-card-header>
@@ -28,16 +29,29 @@
                   </md-menu>
                 </md-card-header>
 
-                <md-card-content style="display:flex;flex-direction:row;justify-content: space-around;">
-                  <div class="tokeninfo">token总量<div>{{message}}</div></div>
-                  <div class="tokeninfo">token释放总量</div>
-                  <div class="tokeninfo">锁仓token总量</div>
+                <md-card-content style="width:40vw">
+                <md-table>
+
+                <md-table-row>
+                    <md-table-cell >Token 总量</md-table-cell>
+                    <md-table-cell>{{max}}</md-table-cell>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-cell >Token 释放总量</md-table-cell>
+                    <md-table-cell>{{supply}}</md-table-cell>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-cell >Token 锁仓总量</md-table-cell>
+                    <md-table-cell>{{frozen_amount}}</md-table-cell>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-cell >Issuer</md-table-cell>
+                    <md-table-cell>{{issuer}}</md-table-cell>
+                </md-table-row>
+                </md-table>
+
                 </md-card-content>
 
-                <md-card-actions md-alignment="right">
-                  <md-button>Action</md-button>
-                  <md-button>Action</md-button>
-                </md-card-actions>
               </md-card>
             </div>            
             <div class="zjutokeninfo" >
@@ -67,72 +81,47 @@
                 </md-card-header>
 
 
-                <md-card-content style="display:flex;flex-direction:row;justify-content: space-around;">
-                  <div class="tokeninfo">时间</div>
-                  <div class="tokeninfo">数量</div>
+                <md-card-content style="width:40vw;">
+                <md-table>
+                <md-table-row>
+                    <md-table-cell >下一次解锁时间</md-table-cell>
+                    <md-table-cell>{{next_release_day}}</md-table-cell>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-cell >下一次解锁数量</md-table-cell>
+                    <md-table-cell>{{release_amount_pertime}}</md-table-cell>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-cell >释放次数</md-table-cell>
+                    <md-table-cell>{{released_times}}</md-table-cell>
+                </md-table-row>
+                </md-table>
                 </md-card-content>
-
-
-                <md-card-actions md-alignment="right" >
-                  <md-button>Action</md-button>
-                  <md-button>Action</md-button>
-                </md-card-actions>
               </md-card>
             </div>
           
 
           </div>
-          <div id="resent-action" >
+          <div id="resent-action" style="margin-top:3vw">
           <md-card>
-            <!-- <div  style="width: 30vw;overflow: auto;margin-right:0">
-              <li>最近交易bbbbbbbbbbbb</li>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-              <p>最近交易</p>
-            </div> -->
                 <md-card-header>
                   <md-card-header-text>
-                    <div class="md-title" style="text-align:center">最近交易</div>
+                    <div class="md-title" >最近交易</div>
                   </md-card-header-text>
 
                   <md-menu md-size="big" md-direction="bottom-end">
-                    <md-button class="md-icon-button" @click="refresh()">
-                      <md-icon>refresh</md-icon>
-                    </md-button>
+                      <md-button><router-link to="/allfenye">所有交易</router-link></md-button>
                   </md-menu>
                 </md-card-header>
 
                 <md-card-content >
-                  <div class="scrollaction" 
-                       v-infinite-scroll="loadMore"
-                       infinite-scroll-disabled="busy" 
-                       infinite-scroll-distance="10" 
-                       infinite-scroll-listen-for-event>
-                    <li v-for="item in this.data" v-bind:key="item.name">{{item.name}}</li>
-                  </div>
-                <!-- <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-                <br> <br> <br> <br>  -->
+                  <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
+                    <md-table v-else v-model="actionss" md-fixed-header ref="cardTable">
+                      <md-table-row slot="md-table-row" slot-scope="{ item }">
+                        <md-table-cell v-for="(v,k) in item" :md-label="k" :key="k" @click="routerto(k)" >{{v}}</md-table-cell>
+                      </md-table-row>
+                    </md-table>
                 </md-card-content>
-
-                <md-card-actions md-alignment="right">
-                  <md-button><router-link to="/allfenye">所有交易</router-link></md-button>
-                </md-card-actions>
           </md-card>
           </div>
           </div>
@@ -142,61 +131,129 @@
   #content1{
     overflow: hidden;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
-    margin-top:70px;
+    /* margin-top:70px;
     position: absolute;
     left:0;
     top:0;
     right:0;
-    bottom:64px;
-  }
-  .tokeninfo{
-    border:1px rgb(107, 105, 105) dotted;
-    text-align: center;
-    height: 8vw;
-    width:10vw;
+    bottom:64px; */
   }
   #recent-action{
       display:flex;
       flex-grow:1;
   }
-  .scrollaction{
-    /* overflow:auto; */
+  /* .scrollaction{
+    overflow:auto;
     max-height: 440px;
-    width:300px;
     overflow-y: auto;
-  }
+  } */
 </style>
 <script>
-var count=0;
+import {eos} from '../main';
+//var count=0;
     export default {
         name: 'shouye',
         data(){
           return{
-            data: [],
-            busy: false,
-            
+            actions: [],
+            actionss:[],
+            ok:0,
+            max_supply:'',
+            supply:'',
+            frozen_amount:'',
+            issuer:'',
+            next_release_day:'',
+            release_amount_pertime:'',
+            released_times:'',
+            transactions:[]
           }
         },
         created:{
-          data:[]
+        },
+        computed:{
+           max:function(){this.getTotalNum();return this.max_supply},
+        },
+        mounted(){
+          // let cardTable = this.$refs.cardTable
+          // // 获取页面中的滚动条所在的元素
+          // let lastEle = cardTable.$el.lastElementChild 
+          // // 滚动监听
+          // lastEle.addEventListener('scroll', () => {
+          //   // 判断滚动条是否到底
+          //   if (lastEle.scrollHeight - lastEle.scrollTop === lastEle.clientHeight) {
+          //     // do something 
+          //     setTimeout(() => {
+          //     for (var i = 0, j = 10; i < j; i++) {
+          //       this.actions.push({ name: count++ });
+          //     }
+          //   }, 1000);
+          //     console.log('我是有底线的.')
+          //   }
+          // }, false)
+
         },
         methods: {
-          refresh:function(){
-              this.data=[]
-              loadMore();
-          },
-          loadMore: function() {
-            this.busy = true;
+          // refresh:function(){
+          //     this.actions=[]
+          //     loadMore();
+          // },
+          // loadMore: function() {
+          //   this.busy = true;
       
-            setTimeout(() => {
+          //   setTimeout(() => {
            
-              for (var i = 0, j = 10; i < j; i++) {
-                this.data.push({ name: count++ });
-              }
-              this.busy = false;
-            }, 1000);
+          //     for (var i = 0, j = 10; i < j; i++) {
+          //       this.actions.push({ name: count++ });
+          //     }
+          //     this.busy = false;
+          //   }, 1000);
+          // },
+          // //get token information
+          // getchaininfo(){
+          //     eos.getInfo({}).then((result)=>{
+          //       //console.log(result);
+          //       this.eosinfo=result.chain_id;});
+          // },
+         async getTotalNum(){
+            eos.getTableRows({code: "zjubcatest11",scope:"AAA",table:"stat",json:"true"}).then(async result=>{
+              console.log(result);
+                                  this.max_supply=result.rows[0].max_supply;
+                                  this.supply=result.rows[0].supply;
+                                  this.frozen_amount=result.rows[0].frozen_amount;
+                                  this.issuer=result.rows[0].issuer;
+                                  this.release_amount_pertime=result.rows[0].release_amount_pertime;
+                                  this.released_times=result.rows[0].released_times;
+                                  this.next_release_day=result.rows[0].next_release_day;
+                                  });
+                             let n;
+          await  eos.getActions({"account_name":"zjubcatest11" , "pos": -1, "offset": -15}).then(async result=>{
+                console.log(result);
+                n=result.actions.length;
+                console.log(n);
+                for(var i=0;i<n;i++){
+                    this.actions[i]={"actionId":result.actions[n-i-1].account_action_seq,
+                                     "blockId":result.actions[n-i-1].block_num,
+                                     "block_time":result.actions[n-i-1].block_time,
+                                     "name":this.name};
+                }
+                });
+                for(var i=0;i<n;i++){
+                    await eos.getBlock(this.actions[i].blockId).then(async res=>{
+                      //console.log(res.transaction_mroot);
+                    this.transactions[i]=res.transaction_mroot});
+                }
+                for(var i=0;i<n;i++){
+                    console.log(this.transactions[i]);
+                    this.actionss[i]={"actionId":this.actions[i].actionId,
+                                     "blockId":this.actions[i].blockId,
+                                     //"transactionId":"{{<a @click='routerto' v-html>{{this.transactions[i]}}</a>}}",
+                                     "transactionId":this.transactions[i],
+                                     "block_time":this.actions[i].block_time,
+                                    };
+                }
+                this.ok=!this.ok;
           }
         }
     }
