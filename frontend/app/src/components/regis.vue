@@ -116,27 +116,42 @@ export default {
             //             console.log(ecc.verify(sig, randomString, scatter.identity.publicKey));
             //         })
             //         .catch(err => console.log('auth err', err))
-            const AccountName=account.name;
-              async function getNewPermissions(accountname) {
-                const account2 = await eos.getAccount(accountname)
-                const perms = JSON.parse(JSON.stringify(account2.permissions))
-                return perms
-              }
-              const perms = await getNewPermissions(account.name)
-              console.log('New permissions =>', JSON.stringify(perms))
-              const updateAuthResult = await eos.transaction(tr => {
+//             const AccountName=account.name;
+//               async function getNewPermissions(accountname) {
+//                 const account2 = await eos.getAccount(accountname)
+//                 const perms = JSON.parse(JSON.stringify(account2.permissions))
+//                 return perms
+//               }
+//               const perm = await getNewPermissions(account.name)
+//               console.log('New permissions =>', JSON.stringify(perm));
 
-                    for(const perm of perms) {
+//               const updateAuthResult = await eos.transaction(tr => {
 
-                      tr.updateauth({
-                          account: AccountName,
-                          permission: perm.perm_name,
-                          parent: perm.parent,
-                          auth: perm.required_auth
-                      }, {authorization: `${AccountName}@eosjs.code`})
-                  }
-              })
-console.log('Success =>', JSON.stringify(updateAuthResult));
+//                     // for(const perm of perms) {
+
+//                       tr.updateauth({
+//                           account: AccountName,
+//                           permission: perm.perm_name,
+//                           parent: perm.parent,
+//                           auth: perm.required_auth
+//                       }, {authorization: `${AccountName}@active`})
+//                   // }
+//               })
+// console.log('Success =>', JSON.stringify(updateAuthResult));
+            console.log(scatter.identity);
+            let pubkey = scatter.identity.publicKey;
+
+            let auth = { threshold: 1, accounts: [{permission: {actor: "zjubcatest12", permission: "eosio.code"}, weight: 1}], keys: [{ key: pubkey, weight: 1 }] };
+
+            let op_data = {
+            account: account.name,
+            permission: 'active',
+            parent: 'owner',
+            auth: auth
+            };
+
+            eos.updateauth(op_data).then(res => console.log(res)).catch(err => console.error(err));
+            
             var res = await eos.transaction({
                               actions: [
                               {
