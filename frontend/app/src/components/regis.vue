@@ -141,13 +141,10 @@
 //                   // }
 //               })
 // console.log('Success =>', JSON.stringify(updateAuthResult));
-          console.log(scatter.identity);
-          let pubkey = scatter.identity.publicKey;
-
           let auth = {
             threshold: 1,
-            accounts: [{permission: {actor: "zjubcatest12", permission: "eosio.code"}, weight: 1}],
-            keys: [{key: pubkey, weight: 1}]
+            accounts: [{permission: {actor: "zjubcatest11", permission: "eosio.code"}, weight: 1}],
+            keys: [{key: account.publicKey, weight: 1}]
           };
 
           let op_data = {
