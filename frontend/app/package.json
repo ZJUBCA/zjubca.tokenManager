@@ -15,7 +15,9 @@
     "vue": "^2.5.17",
     "vue-infinite-scroll": "^2.0.2",
     "vue-material": "^1.0.0-beta-10.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "zjubca-scatterjs-core": "^1.0.4",
+    "zjubca-scatterjs-plugin-eosjs": "^1.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
