@@ -15,11 +15,11 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import infiniteScroll from 'vue-infinite-scroll'
 
-// import ScatterJS from 'scatterjs-core'
-// import ScatterEOS from 'scatterjs-plugin-eosjs'
-// import Eos from 'eosjs'
+import ScatterJS from 'scatterjs-core'
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+import Eos from 'eosjs'
 import VueMaterial from 'vue-material'
-// import { EIO } from 'constants';
+//import { EIO } from 'constants';
 
 Vue.config.productionTip = false;
 Vue.use(MdButton);
@@ -62,27 +62,36 @@ Vue.use(infiniteScroll);
 //   Vue.prototype.$account = account;
 //   Vue.prototype.$eos = eos;
 
-  // Transaction Example
-  // const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
-  //
-  // eos.transfer(account.name, 'helloworld', '1.0000 EOS', 'memo', transactionOptions).then(trx => {
-  //   // That's it!
-  //   console.log(`Transaction ID: ${trx.transaction_id}`);
-  // }).catch(error => {
-  //   console.error(error);
-  // });
-// })
+//   // Transaction Example
+//   // const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
+//   //
+//   // eos.transfer(account.name, 'helloworld', '1.0000 EOS', 'memo', transactionOptions).then(trx => {
+//   //   // That's it!
+//   //   console.log(`Transaction ID: ${trx.transaction_id}`);
+//   // }).catch(error => {
+//   //   console.error(error);
+//   // });
+//  })
 const EosApi = require('eosjs-api');
 
+// const config = {
+//   chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906", // 32 byte (64 char) hex string
+//   keyProvider: [], // WIF string or array of keys..
+//   httpEndpoint: 'https://api.eosnewyork.io',
+//   expireInSeconds: 60,
+//   broadcast: true,
+//   verbose: false, // API activity
+//   sign: true
+// };
 const config = {
-  chainId: "5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191", // 32 byte (64 char) hex string
-  keyProvider: [], // WIF string or array of keys..
-  httpEndpoint: 'https://api-kylin.eosasia.one',
-  expireInSeconds: 60,
-  broadcast: true,
-  verbose: false, // API activity
-  sign: true
-};
+    chainId: "5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191", // 32 byte (64 char) hex string
+    keyProvider: [], // WIF string or array of keys..
+    httpEndpoint: 'https://api-kylin.eoslaomao.com',
+    expireInSeconds: 60,
+    broadcast: true,
+    verbose: false, // API activity
+    sign: true,
+  };
 const eos = EosApi(config);
 
 // let eosinfo=eos.getInfo({}).then(result => console.log(result))
