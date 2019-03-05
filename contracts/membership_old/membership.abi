@@ -1,0 +1,108 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb 25 19:14:09 2019",
+    "version": "eosio::abi/1.1",
+    "structs": [
+        {
+            "name": "enroll",
+            "base": "",
+            "fields": [
+                {
+                    "name": "studentname",
+                    "type": "string"
+                },
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "eosaccount",
+                    "type": "name"
+                },
+                {
+                    "name": "register_fee",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "member",
+            "base": "",
+            "fields": [
+                {
+                    "name": "studentname",
+                    "type": "string"
+                },
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "eosaccount",
+                    "type": "name"
+                },
+                {
+                    "name": "registration_date",
+                    "type": "uint64"
+                },
+                {
+                    "name": "expiration_date",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "quit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "renew",
+            "base": "",
+            "fields": [
+                {
+                    "name": "eosaccount",
+                    "type": "name"
+                },
+                {
+                    "name": "renewal",
+                    "type": "asset"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "enroll",
+            "type": "enroll",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "quit",
+            "type": "quit",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "renew",
+            "type": "renew",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "members",
+            "type": "member",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "abi_extensions": []
+}

@@ -1,0 +1,33 @@
+{
+  "name": "zjubca.vote",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "eosjs": "^16.0.9",
+    "scatterjs-core": "^2.4.0",
+    "scatterjs-plugin-eosjs": "^1.4.0",
+    "vue": "^2.5.17",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-material": "^1.0.0-beta-10.2",
+    "vue-router": "^3.0.1",
+    "zjubca-scatterjs-core": "^1.0.4",
+    "zjubca-scatterjs-plugin-eosjs": "^1.0.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.2.0",
+    "@vue/cli-plugin-eslint": "^3.2.0",
+    "@vue/cli-service": "^3.2.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "vue-template-compiler": "^2.5.17"
+  }
+}
