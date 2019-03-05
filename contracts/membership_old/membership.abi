@@ -1,22 +1,44 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Tue Mar  5 01:22:49 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb 25 19:14:09 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
-            "name": "member",
+            "name": "enroll",
             "base": "",
             "fields": [
+                {
+                    "name": "studentname",
+                    "type": "string"
+                },
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                },
                 {
                     "name": "eosaccount",
                     "type": "name"
                 },
                 {
-                    "name": "studentid",
-                    "type": "string"
-                },
+                    "name": "register_fee",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "member",
+            "base": "",
+            "fields": [
                 {
                     "name": "studentname",
                     "type": "string"
+                },
+                {
+                    "name": "student_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "eosaccount",
+                    "type": "name"
                 },
                 {
                     "name": "registration_date",
@@ -39,42 +61,16 @@
             ]
         },
         {
-            "name": "test",
+            "name": "renew",
             "base": "",
             "fields": [
                 {
-                    "name": "from",
+                    "name": "eosaccount",
                     "type": "name"
                 },
                 {
-                    "name": "kid_id",
-                    "type": "string"
-                },
-                {
-                    "name": "kid_name",
-                    "type": "string"
-                }
-            ]
-        },
-        {
-            "name": "transfer",
-            "base": "",
-            "fields": [
-                {
-                    "name": "from",
-                    "type": "name"
-                },
-                {
-                    "name": "to",
-                    "type": "name"
-                },
-                {
-                    "name": "quantity",
+                    "name": "renewal",
                     "type": "asset"
-                },
-                {
-                    "name": "memo",
-                    "type": "string"
                 }
             ]
         }
@@ -82,24 +78,24 @@
     "types": [],
     "actions": [
         {
+            "name": "enroll",
+            "type": "enroll",
+            "ricardian_contract": ""
+        },
+        {
             "name": "quit",
             "type": "quit",
             "ricardian_contract": ""
         },
         {
-            "name": "test",
-            "type": "test",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "transfer",
-            "type": "transfer",
+            "name": "renew",
+            "type": "renew",
             "ricardian_contract": ""
         }
     ],
     "tables": [
         {
-            "name": "member",
+            "name": "members",
             "type": "member",
             "index_type": "i64",
             "key_names": [],
