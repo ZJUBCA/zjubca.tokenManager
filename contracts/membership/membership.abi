@@ -1,7 +1,12 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Tue Mar  5 01:22:49 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Tue Mar  5 14:37:14 2019",
     "version": "eosio::abi/1.1",
     "structs": [
+        {
+            "name": "droptable",
+            "base": "",
+            "fields": []
+        },
         {
             "name": "member",
             "base": "",
@@ -25,34 +30,6 @@
                 {
                     "name": "expiration_date",
                     "type": "uint64"
-                }
-            ]
-        },
-        {
-            "name": "quit",
-            "base": "",
-            "fields": [
-                {
-                    "name": "user",
-                    "type": "name"
-                }
-            ]
-        },
-        {
-            "name": "test",
-            "base": "",
-            "fields": [
-                {
-                    "name": "from",
-                    "type": "name"
-                },
-                {
-                    "name": "kid_id",
-                    "type": "string"
-                },
-                {
-                    "name": "kid_name",
-                    "type": "string"
                 }
             ]
         },
@@ -82,13 +59,8 @@
     "types": [],
     "actions": [
         {
-            "name": "quit",
-            "type": "quit",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "test",
-            "type": "test",
+            "name": "droptable",
+            "type": "droptable",
             "ricardian_contract": ""
         },
         {
@@ -99,7 +71,7 @@
     ],
     "tables": [
         {
-            "name": "member",
+            "name": "members",
             "type": "member",
             "index_type": "i64",
             "key_names": [],

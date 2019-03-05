@@ -14,16 +14,6 @@ class [[eosio::contract("membership")]] membership : public contract {
 
       membership( name receiver, name code, datastream<const char*> ds ):contract(receiver, code, ds),  _members(receiver, code.value){}
 
-      // [[eosio::action]]
-      // void enroll(string   studentname,
-      //             uint64_t student_id,
-      //             name     eosaccount,
-      //             asset    register_fee);
-
-      // [[eosio::action]]
-      // void renew( name     eosaccount,
-      //             asset    renewal);
-
       [[eosio::action]]
       void transfer( name     from,
                      name     to,
@@ -31,12 +21,7 @@ class [[eosio::contract("membership")]] membership : public contract {
                      string   memo);
 
       [[eosio::action]]
-      void test(  name     from,
-                  string   kid_id,
-                  string   kid_name);
-
-      [[eosio::action]]
-      void quit(name user);
+      void droptable();
 
    private:
       void split(const string& s, char c, vector<string>& v);
@@ -54,7 +39,7 @@ class [[eosio::contract("membership")]] membership : public contract {
          eosio::checksum256 by_studentname() const { return sha256(const_cast<char*>(studentname.c_str()), studentname.size() * sizeof(char));}
       };
 
-      typedef eosio::multi_index< "member"_n, member, 
+      typedef eosio::multi_index< "members"_n, member, 
       indexed_by<"studentid"_n, const_mem_fun<member, eosio::checksum256, &member::by_studentid>>,
       indexed_by<"studentname"_n, const_mem_fun<member, eosio::checksum256, &member::by_studentname>>> members;
 

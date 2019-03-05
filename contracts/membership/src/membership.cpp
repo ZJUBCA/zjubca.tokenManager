@@ -2,19 +2,6 @@
 
 using namespace eosio;
 
-void membership::test(  name     from,
-                        string   kid_id,
-                        string   kid_name)
-{
-    _members.emplace( _self, [&]( auto& m ) {
-        m.eosaccount        = from;
-        m.studentid         = kid_id;
-        m.studentname       = kid_name;            
-        m.registration_date = now();
-        m.expiration_date   = now() + 3600 * 24 * 183;
-    });
-}
-
 void membership::transfer(  name     from,
                             name     to,
                             asset    quantity,
@@ -23,7 +10,7 @@ void membership::transfer(  name     from,
     // lexer
     vector<string> info;
     split(memo, '$', info);
-    eosio_assert(info.size() == 3, "wrong format! memo requires 3 tokens: action@name@id");
+    eosio_assert((info.size() == 3, "wrong format! memo requires 3 tokens: action$name$id");
     string opcode = info[0].c_str();
     string kid_name = info[1].c_str();
     string kid_id = info[2].c_str();
@@ -65,31 +52,27 @@ void membership::transfer(  name     from,
         });
     }
     else if(opcode == "renew"){
-           // check existence of eos account
-           auto kid = _members.find( from.value);
-           eosio_assert(kid != _members.end(), "Record doesn't exist");
-           // check renewal
-           eosio_assert(quantity.is_valid(), "Invalid token transfer...");
-           eosio_assert(quantity.amount > 0, "Renewal must be positive" );
-            eosio_assert(quantity.amount % (int64_t)(10000 * 1e4) == 0 , "Wrong renewal! It is supposed to be multiple of 10000.0000 AAAwith 4      decimal digits");
-           eosio_assert(quantity.symbol == symbol("AAA", 4), "Wrong token symbol!");               
+        // check existence of eos account
+        auto kid = _members.find( from.value);
+        eosio_assert(kid != _members.end(), "Record doesn't exist");
+        // check renewal
+        eosio_assert(quantity.is_valid(), "Invalid token transfer...");
+        eosio_assert(quantity.amount > 0, "Renewal must be positive" );
+        eosio_assert(quantity.amount % (int64_t)(10000 * 1e4) == 0 , "Wrong renewal! It is supposed to be multiple of 10000.0000 AAAwith 4      decimal digits");
+        eosio_assert(quantity.symbol == symbol("AAA", 4), "Wrong token symbol!");               
            
-           uint64_t durations = quantity.amount / (10000 * 1e4);
-           _members.modify( kid, same_payer, [&]( auto& m ) {
-               m.expiration_date += 3600 * 24 * 183 * durations;
-           });
+        uint64_t durations = quantity.amount / (10000 * 1e4);
+        _members.modify( kid, same_payer, [&]( auto& m ) {
+            m.expiration_date += 3600 * 24 * 183 * durations;
+        });
     }
 }
 
-void membership::quit(name user)
-{
-    // check authority
-    require_auth(user);
-    // check uniqueness of eos account
-    auto kid = _members.find( user.value );
-    eosio_assert(kid != _members.end(), "no such user");
-    
-    _members.erase(kid);
+void membership::droptable(){
+    require_auth(_self);
+    for(auto itr = _members.begin(); itr != _members.end();) {
+        itr = _members.erase(itr);
+    }
 }
 
 void membership::split(const string& s, char c, vector<string>& v) {
@@ -114,20 +97,19 @@ bool membership::isNum(string str)
         }
     }
     return true;
-}  
-
-// EOSIO_DISPATCH( membership, (enroll)(quit)(renew))
+}
 
 extern "C" {
     void apply(uint64_t receiver, uint64_t code, uint64_t action) {
         if(code == receiver && action != name("transfer").value) {
             switch(action){
-                case name("quit").value: execute_action(name(receiver), name(code), &membership::quit );
-                case name("test").value: execute_action(name(receiver), name(code), &membership::test );
+                case name("droptable").value: execute_action(name(receiver), name(code), &membership::droptable );
             }
         }
         else if(code == name("zjubcatest11").value && action == name("transfer").value) {
-            execute_action(name(receiver), name(code), &membership::transfer );
+            execute_action(name(receiver), name("membership"), &membership::transfer );
         }
     }
 };
+
+// EOSIO_ABI_CUSTOM(membership, (enroll)(quit)(renew))
