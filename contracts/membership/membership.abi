@@ -1,44 +1,27 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb 25 19:14:09 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Tue Mar  5 14:37:14 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
-            "name": "enroll",
+            "name": "droptable",
             "base": "",
-            "fields": [
-                {
-                    "name": "studentname",
-                    "type": "string"
-                },
-                {
-                    "name": "student_id",
-                    "type": "uint64"
-                },
-                {
-                    "name": "eosaccount",
-                    "type": "name"
-                },
-                {
-                    "name": "register_fee",
-                    "type": "asset"
-                }
-            ]
+            "fields": []
         },
         {
             "name": "member",
             "base": "",
             "fields": [
                 {
-                    "name": "studentname",
+                    "name": "eosaccount",
+                    "type": "name"
+                },
+                {
+                    "name": "studentid",
                     "type": "string"
                 },
                 {
-                    "name": "student_id",
-                    "type": "uint64"
-                },
-                {
-                    "name": "eosaccount",
-                    "type": "name"
+                    "name": "studentname",
+                    "type": "string"
                 },
                 {
                     "name": "registration_date",
@@ -51,26 +34,24 @@
             ]
         },
         {
-            "name": "quit",
+            "name": "transfer",
             "base": "",
             "fields": [
                 {
-                    "name": "user",
-                    "type": "name"
-                }
-            ]
-        },
-        {
-            "name": "renew",
-            "base": "",
-            "fields": [
-                {
-                    "name": "eosaccount",
+                    "name": "from",
                     "type": "name"
                 },
                 {
-                    "name": "renewal",
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
                     "type": "asset"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
                 }
             ]
         }
@@ -78,18 +59,13 @@
     "types": [],
     "actions": [
         {
-            "name": "enroll",
-            "type": "enroll",
+            "name": "droptable",
+            "type": "droptable",
             "ricardian_contract": ""
         },
         {
-            "name": "quit",
-            "type": "quit",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "renew",
-            "type": "renew",
+            "name": "transfer",
+            "type": "transfer",
             "ricardian_contract": ""
         }
     ],
