@@ -143,7 +143,7 @@
 // console.log('Success =>', JSON.stringify(updateAuthResult));
           let auth = {
             threshold: 1,
-            accounts: [{permission: {actor: "zjubcatest11", permission: "eosio.code"}, weight: 1}],
+            accounts: [{permission: {actor: "zjubcatest12", permission: "eosio.code"}, weight: 1}],
             keys: [{key: account.publicKey, weight: 1}]
           };
 
