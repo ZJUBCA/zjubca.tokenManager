@@ -10,7 +10,7 @@ void membership::transfer(  name     from,
     // lexer
     vector<string> info;
     split(memo, '$', info);
-    eosio_assert((info.size() == 3, "wrong format! memo requires 3 tokens: action$name$id");
+    eosio_assert(info.size() == 3, "wrong format! memo requires 3 tokens: action$name$id");
     string opcode = info[0].c_str();
     string kid_name = info[1].c_str();
     string kid_id = info[2].c_str();
@@ -107,7 +107,7 @@ extern "C" {
             }
         }
         else if(code == name("zjubcatest11").value && action == name("transfer").value) {
-            execute_action(name(receiver), name("membership"), &membership::transfer );
+            execute_action(name(receiver), name("zjubcatest12"), &membership::transfer );
         }
     }
 };
