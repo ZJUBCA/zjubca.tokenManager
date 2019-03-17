@@ -1,12 +1,8 @@
-# CONTRACT FOR membership::transfer
+<h1 class="contract">transfer</h1>
 
-## ACTION NAME: transfer
-
-### Parameters
-Input parameters:
+Stub for hi action's ricardian contractrameters Input parameters:
 
 * `from` (user name)
-
 * `to` (membership contract account)
 * `quantity` (renewal/registeration fee)
 * `memo` (string conforming to opcode standard)
