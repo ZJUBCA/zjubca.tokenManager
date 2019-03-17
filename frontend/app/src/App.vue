@@ -3,23 +3,34 @@
     <md-app>
       <md-app-toolbar class="md-primary" style="display:flex">
               <div class="md-toolbar-row">
-        <div class="md-toolbar-section-start" style="display:none">
-          <md-button class="md-icon-button">
+        <div class="md-toolbar-section-start" >
+          <md-button class="md-icon-button"  @click="menuVisible = !menuVisible">
             <md-icon>menu</md-icon>
           </md-button>
         </div>
         <div class="md-toolbar-section-start" >
-          <md-title>logo&ZJUBCA</md-title>
+          <md-title>{{eosaccount}}</md-title>
         </div>
-        <md-autocomplete
+        <!-- <md-autocomplete
           class="search"
-          v-model="selectedEmployee"
+          v-model="selectedAccount"
+          md-layout="box"
           :md-options="employees"
-          md-layout="box">
-          <label>Search...</label>
-        </md-autocomplete>
-
-        <div class="md-toolbar-section-end">
+        >
+          <label>根据eos账户名搜索</label>
+        </md-autocomplete> -->
+                            <!-- <div id="newitem" style="padding:10px 200px">
+                                <form @submit.native.prevent class="bs-example bs-example-form" role="form" id="form1">
+                                    <div class="input-group input-group-sm">
+                                        
+                                        <span class="input-group-addon">Search</span>
+                                            <input onkeypress="if(event.keyCode == 13) return false;" type="text" class="form-control" placeholder="搜索账户名" 
+                                                    v-on:keyup.enter="search"
+                                                    v-model="Account">
+                                    </div>
+                                </form>
+                            </div>  -->
+        <!-- <div class="md-toolbar-section-end">
           <md-button class="md-icon-button">
             <md-icon>refresh</md-icon>
           </md-button>
@@ -27,11 +38,11 @@
           <md-button class="md-icon-button">
             <md-icon>more_vert</md-icon>
           </md-button>
-        </div>
+        </div> -->
       </div>
       </md-app-toolbar>
 
-      <md-app-drawer md-permanent="full">
+      <md-app-drawer md-permanent="full" :md-active.sync="menuVisible">
         <md-toolbar class="md-transparent" md-elevation="0">
           <md-button class="md-icon-button md-dense md-primary">
             <md-icon><router-link to="/account">person</router-link></md-icon>
@@ -41,27 +52,17 @@
 
         <md-list>
           <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
+            <md-icon><router-link to="/">home</router-link></md-icon>
             <span class="md-list-item-text"><router-link to="/">首页</router-link></span>
           </md-list-item>
 
           <md-list-item>
-            <md-icon>send</md-icon>
+            <md-icon><router-link to="/account">face</router-link></md-icon>
             <span class="md-list-item-text"><router-link to="/account">我的账户</router-link></span>
           </md-list-item>
 
-          <!-- <md-list-item>
-            <md-icon>delete</md-icon>
-            <span class="md-list-item-text"><router-link to="/transfer">转账</router-link></span>
-          </md-list-item> -->
-
           <md-list-item>
-            <md-icon>delete</md-icon>
-            <span class="md-list-item-text"><router-link to="/allfenye">待生效交易</router-link></span>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>error</md-icon>
+            <md-icon><router-link to="/allmembers">supervisor_account</router-link></md-icon>
             <span class="md-list-item-text"><router-link to="/member">成员信息</router-link></span>
           </md-list-item>
         </md-list>
@@ -70,9 +71,9 @@
         <md-app-content >
           <router-view></router-view>
         </md-app-content>
-    <footer >
-		  zjubca.token 
-    </footer>        
+
+
+     
     </md-app>
 
   </div>
@@ -102,50 +103,31 @@
    // Demo purposes only
   .md-drawer {
     width: 230px;
-    max-width: calc(100vw - 500px);
+    max-width: calc(100vw - 125px);
   }
-  .search {
-    max-width: 30vw;
-  }
-  footer{
-    text-align: center;
-    border:1px rgb(107, 105, 105) dotted;
+  #newitem {
+    width: 50vw;
   }
 </style>
 
 <script>
-import axios from 'axios';
 export default {
   name: 'Normal',
   data(){
     return{
-      selectedEmployee:null,
-      employees: [
-      "Jim Halpert",
-      "Dwight Schrute",
-      "Michael Scott",
-      "Pam Beesly",
-      "Angela Martin",
-      "Kelly Kapoor",
-      "Ryan Howard",
-      "Kevin Malone",
-      "Creed Bratton",
-      "Oscar Nunez",
-      "Toby Flenderson",
-      "Stanley Hudson",
-      "Meredith Palmer",
-      "Phyllis Lapin-Vance"
-    ]
+      Account:null,
+      menuVisible: false
     }
   },
   created:{
     
   },
   computed:{
+    eosaccount:function(){
 
+    }
   },
   methods:{
-
   }
 }
 

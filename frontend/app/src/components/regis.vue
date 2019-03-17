@@ -17,20 +17,9 @@
           <label>学号</label>
           <md-input v-model="studentInfo.studentId"></md-input>
         </md-field>
-        <md-field>
-          <label>EOS账户</label>
-          <md-input v-model="studentInfo.EosId"></md-input>
-        </md-field>
-        <md-field md-has-password>
-          <label>password</label>
-          <md-input v-model="studentInfo.password" type="password"></md-input>
-        </md-field>
       </div>
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <md-button class="md-raised md-primary" @click="auth">
-          <router-link to="/" style="color:white;">支付</router-link>
-        </md-button>
         <md-button class="md-raised md-primary" @click="regis">注册</md-button>
       </div>
 
@@ -44,11 +33,8 @@
 </template>
 
 <script>
-  import ScatterJS from 'scatterjs-core'
-  import ScatterEOS from 'scatterjs-plugin-eosjs'
+  import {student} from '../main'
   import Eos from 'eosjs'
-  import ecc from 'eosjs-ecc'
-
   export default {
     name: "App",
     data() {
@@ -72,115 +58,29 @@
           this.loading = false;
         }, 5000);
       },
-      regis() {
-        ScatterJS.plugins(new ScatterEOS());
-
-        ScatterJS.scatter.connect('ZJUBCA.TOKEN', {
-          initTimeout: 10000,
-        }).then(async connected => {
-          if (!connected) {
-            console.log('please unlock your scatter');
-            return false
-          }
-          const network = {
-            blockchain: 'eos',
-            protocol: 'https',
-            host: 'api-kylin.eoslaomao.com',
-            port: 443,
-            chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
-          };
-
-          let scatter = ScatterJS.scatter;
-          await scatter.getIdentity({accounts: [network]});
-          const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
-          const eos = scatter.eos(network, Eos, {expireInSeconds: 20});
-
-          console.log(account)
-          console.log(eos)
-          //   // Transaction Example
-
-          //const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
-          // eos.transfer(account.name, this.transfer.to, this.transfer.amount, this.transfer.memo, transactionOptions).then(trx => {
-          //     // That's it!
-          //     console.log(`Transaction ID: ${trx.transaction_id}`);
-          // }).catch(error => {
-          //     console.error(error);
-          // });
-          // const getRandom = () => Math.round(Math.random() * 8 + 1).toString();
-          // let randomString = '';
-          // for(let i = 0; i < 12; i++) randomString += getRandom();
-          // console.log('randomString', randomString);
-          // scatter.authenticate(randomString)
-          //         .then(sig => {
-          //             // This will return your `location.host`
-          //             // signed with their Identity's private key.
-          //             // It has already been validated, but you can validate it yourself as well using eosjs-ecc.
-          //             console.log(sig)
-          //             console.log(ecc.verify(sig, randomString, scatter.identity.publicKey));
-          //         })
-          //         .catch(err => console.log('auth err', err))
-//             const AccountName=account.name;
-//               async function getNewPermissions(accountname) {
-//                 const account2 = await eos.getAccount(accountname)
-//                 const perms = JSON.parse(JSON.stringify(account2.permissions))
-//                 return perms
-//               }
-//               const perm = await getNewPermissions(account.name)
-//               console.log('New permissions =>', JSON.stringify(perm));
-
-//               const updateAuthResult = await eos.transaction(tr => {
-
-//                     // for(const perm of perms) {
-
-//                       tr.updateauth({
-//                           account: AccountName,
-//                           permission: perm.perm_name,
-//                           parent: perm.parent,
-//                           auth: perm.required_auth
-//                       }, {authorization: `${AccountName}@active`})
-//                   // }
-//               })
-// console.log('Success =>', JSON.stringify(updateAuthResult));
-          let auth = {
-            threshold: 1,
-            accounts: [{permission: {actor: "zjubcatest12", permission: "eosio.code"}, weight: 1}],
-            keys: [{key: account.publicKey, weight: 1}]
-          };
-
-          let op_data = {
-            account: account.name,
-            permission: 'active',
-            parent: 'owner',
-            auth: auth
-          };
-
-          let res = await eos.updateauth(op_data, {authorization: `${account.name}@active`});
-          console.log(res);
-
-          res = await eos.transaction({
-            actions: [
-              {
-                account: "zjubcatest12", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
-                name: "enroll",
-                authorization: [{
-                  actor: account.name,
-                  permission: account.authority
-                }
-                ],
-                data: {
-                  studentname: this.studentInfo.FullName,
-                  student_id: this.studentInfo.studentId,
-                  eosaccount: this.studentInfo.EosId,
-                  register_fee: "10000.0000 AAA"
-                }
-              }]
-          }).then(res => {
-            console.log(res)
-          }).catch(error => {
-            console.error(error);
-          });
-          alert("注册成功");
-        });
+      async regis() {
+            var res = await eos.transaction({
+                              actions: [
+                              {
+                                  account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                                  name: "transfer",
+                                  authorization: [{
+                                      actor: student.account.name,
+                                      permission: student.account.authority
+                                  }
+                                  ],
+                                  data: {
+                                      from: student.account.name,
+                                      to: 'zjubcatest12',
+                                      quantity: "10000.0000 AAA",
+                                      memo: "enroll$"+this.studentInfo.FullName+"$"+this.studentInfo.studentId,
+                                  }
+                              }]
+                          }).catch(error => {
+                              console.error(error);
+                              alert("注册失败")
+                          });
+             eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"member",json:"true"})
       }
     }
   }
@@ -193,27 +93,22 @@
     justify-content: center;
     position: relative;
     padding-top: 0vw;
-
     .title {
       text-align: center;
       margin-bottom: 30px;
-
       img {
         margin-bottom: 16px;
         max-width: 80px;
       }
     }
-
     .actions {
       .md-button {
         margin: 0;
       }
     }
-
     .form {
       margin-bottom: 0px;
     }
-
     .background {
       position: absolute;
       height: 100%;
@@ -224,7 +119,6 @@
       left: 0;
       z-index: 0;
     }
-
     .md-content {
       z-index: 1;
       padding: 40px;
@@ -232,7 +126,6 @@
       max-width: 400px;
       position: relative;
     }
-
     .loading-overlay {
       z-index: 10;
       top: 0;

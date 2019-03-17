@@ -1,46 +1,45 @@
 <template>
 <div>
-    <div  >
+    <div v-if="login" >
     </div>
-    <div >
+    <div v-else>
     <md-card md-with-hover>
       <md-ripple>
         <md-card-header>
-                  <md-card-header-text>
-                    <div class="md-title" >我的账户</div>
-                  </md-card-header-text>
-                  <md-menu md-size="big" md-direction="bottom-end">
-                      <md-button @click="renew">renew</md-button>
-                  </md-menu>
+          <div class="md-title">Account Information</div>
         </md-card-header>
 
         <md-card-content>
                 <md-table>
+                <!-- <md-table-row>
+                    <md-table-head md-numeric>ID</md-table-head>
+                    <md-table-head>Name</md-table-head>
+                    <md-table-head>Email</md-table-head>
+                    <md-table-head>Gender</md-table-head>
+                    <md-table-head>Job Title</md-table-head>
+                </md-table-row> -->
 
-                <md-table-row :key="accounname">
+                <md-table-row>
                     <md-table-cell >Account Name</md-table-cell>
                     <md-table-cell>{{name}}</md-table-cell>
                 </md-table-row>
 
-                <md-table-row :key="id">
+                <md-table-row>
                     <md-table-cell>StudentId</md-table-cell>
                     <md-table-cell>{{StudentId}}</md-table-cell>
                 </md-table-row>
 
-                <md-table-row :key="st">
+                <md-table-row>
                     <md-table-cell>studentname</md-table-cell>
                     <md-table-cell>{{studentname}}</md-table-cell>
                 </md-table-row>
 
-                <md-table-row :key="time">
-                    <md-table-cell>注册时间</md-table-cell>
+                <md-table-row>
+                    <md-table-cell>registration_date</md-table-cell>
                     <md-table-cell>{{registration_date}}</md-table-cell>
                 </md-table-row>
-                <md-table-row :key="retime">
-                    <md-table-cell>注册到期时间</md-table-cell>
-                    <md-table-cell>{{expiration_date}}</md-table-cell>
-                </md-table-row>
-                <md-table-row :key="left">
+
+                <md-table-row>
                     <md-table-cell>余额</md-table-cell>
                     <md-table-cell>{{left}}</md-table-cell>
                 </md-table-row>
@@ -82,15 +81,13 @@
         <td>{{item.quantity}}</td>
         <td class="hidden-xs">{{item.memo}}</td>
         <td class="hidden-xs">{{item.height}}</td>
-        <td  class="hidden-xs">{{item.time}}</td>
+        <td class="hidden-xs">{{item.time}}</td>
         </tr>
     </tbody>
   </table>
-
 </div>
-  </md-card-content>
-  </md-card>
-
+      </md-card-content>
+    </md-card>
     </div>
 </div>
 </template>
@@ -101,19 +98,15 @@
     display: inline-block;
     vertical-align: top;
   }
-  td{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 </style>
 <script>
-import Eos from 'eosjs'
-import {eos} from '../main'
-import {student} from '../main'
   const getLocalTime=(nS) =>{     
    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
 }
+import ScatterJS from 'scatterjs-core'
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+import Eos from 'eosjs'
+import {eos} from '../main'
 export default {
     data(){
         return{
@@ -127,25 +120,17 @@ export default {
             transactions:[],
             studentname:"",
             registration_date:"",
-            expiration_date:"",
             // actionId:'',
             // blockId:'',
             // block_time:'',
         }
     },
     computed:{
-        left:function(){this.mess();return this.leftnum},
-
-
+        left:function(){this.name=this.$route.params.Account;this.getAccountInfo();return this.leftnum},
     },
     methods:{
-          mess(){
-              this.name=student.name;
-              this.getAccountInfo();
-          },
       async  getAccountInfo() {
-            //studentid
-            await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
+                      await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
             console.log(res)
             let nn=res.rows.length;
             console.log(res.rows[1].eosaccount===this.name);
@@ -156,22 +141,13 @@ export default {
                     this.StudentId=res.rows[ii].studentid;
                     this.studentname=res.rows[ii].studentname;
                     this.registration_date=getLocalTime(res.rows[ii].registration_date);
-                    this.expiration_date=getLocalTime(res.rows[ii].expiration_date);
-                    if(res.rows[ii].expiration_date<Date.parse(new Date())/1000){
-                        this.expiration_date=this.expiration_date+"(注册已过期，请renew！）"
-                    }    
                     break;
                 }
             }
-            if(ii===nn){
-              alert("请先注册！")
-            }
             })
-            //student currency balance
             eos.getCurrencyBalance({code:'zjubcatest11',account:this.name,symbol:'AAA'}).then(result=>{this.leftnum=result[0]});
-            //get actions
             let n;
-            await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -50}).then(async result=>{
+              await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -50}).then(async result=>{
                 console.log(result)
                 n=result.actions.length;
                 console.log(n)
@@ -197,42 +173,15 @@ export default {
                 }
                 });
                 this.ok=!this.ok;
+                this.getStudentInfo();
         },
-      onSelect (item) {
-        this.$router.push({name:'SearchAction',
-                           params: { 
-                                item: item
-                            }});
-      },
         toall(){
           this.$router.push({name:'pages',
           params: { 
                 account: this.name, 
                             }});
-        },
-        async renew(){
-            var res = await eos.transaction({
-                              actions: [
-                              {
-                                  account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
-                                  name: "transfer",
-                                  authorization: [{
-                                      actor: student.account.name,
-                                      permission: student.account.authority
-                                  }
-                                  ],
-                                  data: {
-                                      from: student.account.name,
-                                      to: 'zjubcatest12',
-                                      quantity: "10000.0000 AAA",
-                                      memo: "renew$"+"my"+"$"+"account",
-                                  }
-                              }]
-                          }).catch(error => {
-                              console.error(error);
-                              alert("更新失败")
-                          });
-    }
+        }
+
     }
 }
 </script>

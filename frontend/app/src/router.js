@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import shouye from './components/shouye.vue'
-import allfenye from './components/allfenye.vue'
-import sign from './components/sign.vue'
 import regis from './components/regis.vue'
 import account from './components/account.vue'
+import pages from './components/pages.vue'
+import SearchAccount from './components/SearchAccount.vue'
 import member from './components/member.vue'
-import transfer from './components/transfer.vue'
-
+import SearchAction from './components/SearchAction.vue'
 Vue.use(Router)
 export default new Router({
   base:'/app/',
@@ -16,16 +15,6 @@ export default new Router({
       // path: '/shouye',
       name: 'shouye',
       component: shouye
-    },
-    {
-      path: '/allfenye',
-      name: 'allfenye',
-      component: allfenye
-    },
-    {
-      path: '/sign',
-      name: 'sign',
-      component: sign
     },
     {
       path: '/regis',
@@ -38,14 +27,24 @@ export default new Router({
       component: account
     },
     {
+      path: '/pages',
+      name: 'pages',
+      component: pages
+    },
+    {
+      path: '/SearchAccount',
+      name: 'SearchAccount',
+      component: SearchAccount
+    },
+    {
       path: '/member',
       name: 'member',
       component: member
     },
     {
-      path: '/transfer',
-      name: 'transfer',
-      component: transfer
+      path: '/SearchAction',
+      name: 'SearchAction',
+      component: SearchAction
     },
   ]
 })
