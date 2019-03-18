@@ -8,6 +8,11 @@
             <md-icon>menu</md-icon>
           </md-button>
         </div>
+                  <div class="md-toolbar-section-end">
+            <md-button class="md-icon-button" @click="goback">
+              <md-icon >undo</md-icon>
+            </md-button>
+          </div>
         <div class="md-toolbar-section-start" >
           <md-title>{{eosaccount}}</md-title>
         </div>
@@ -69,7 +74,7 @@
       </md-app-drawer>
 
         <md-app-content >
-          <router-view></router-view>
+          <router-view ></router-view>
         </md-app-content>
 
 
@@ -111,6 +116,7 @@
 </style>
 
 <script>
+import router from './router';
 export default {
   name: 'Normal',
   data(){
@@ -128,6 +134,9 @@ export default {
     }
   },
   methods:{
+    goback(){
+      router.go(-1);
+    }
   }
 }
 
