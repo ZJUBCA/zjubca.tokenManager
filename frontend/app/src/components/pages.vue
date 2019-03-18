@@ -10,7 +10,7 @@
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
             <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
-  <table v-else class="table" style="overflow: hidden;">
+  <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
         <th>from</th>
@@ -44,6 +44,14 @@
     </md-card>
 </div>
 </template>
+<style>
+  td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
 <script>
 import {eos} from '../main'
 export default {

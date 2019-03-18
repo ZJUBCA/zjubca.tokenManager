@@ -4,8 +4,8 @@
         <div class="md-title">Transaction Infomation</div>
       </md-card-header>
 
-      <md-card-content>
-                <md-table style="overflow: hidden;">
+      <md-card-content style="overflow: hidden;">
+                <md-table style="overflow: hidden;overflow: hidden;">
 
                 <md-table-row>
                     <md-table-cell >time</md-table-cell>

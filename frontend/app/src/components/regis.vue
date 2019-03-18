@@ -34,7 +34,6 @@
 
 <script>
   import {student} from '../main'
-  import Eos from 'eosjs'
   export default {
     name: "App",
     data() {
@@ -59,7 +58,8 @@
         }, 5000);
       },
       async regis() {
-            var res = await eos.transaction({
+        console.log(this.$eos);
+            var res = await this.$eos.transaction({
                               actions: [
                               {
                                   account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
@@ -80,7 +80,6 @@
                               console.error(error);
                               alert("注册失败")
                           });
-             eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"member",json:"true"})
       }
     }
   }

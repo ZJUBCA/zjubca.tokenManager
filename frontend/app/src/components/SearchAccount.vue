@@ -10,15 +10,7 @@
         </md-card-header>
 
         <md-card-content>
-                <md-table>
-                <!-- <md-table-row>
-                    <md-table-head md-numeric>ID</md-table-head>
-                    <md-table-head>Name</md-table-head>
-                    <md-table-head>Email</md-table-head>
-                    <md-table-head>Gender</md-table-head>
-                    <md-table-head>Job Title</md-table-head>
-                </md-table-row> -->
-
+                <md-table style="table-layout: fixed;overflow: hidden;">
                 <md-table-row>
                     <md-table-cell >Account Name</md-table-cell>
                     <md-table-cell>{{name}}</md-table-cell>
@@ -103,9 +95,6 @@
   const getLocalTime=(nS) =>{     
    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
 }
-import ScatterJS from 'scatterjs-core'
-import ScatterEOS from 'scatterjs-plugin-eosjs'
-import Eos from 'eosjs'
 import {eos} from '../main'
 export default {
     data(){

@@ -1,6 +1,5 @@
 <template>
 <div>
-    
     <md-card md-with-hover >
       <md-ripple>
         <md-card-header>

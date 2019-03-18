@@ -4,14 +4,15 @@
       <md-app-toolbar class="md-primary" style="display:flex">
               <div class="md-toolbar-row">
         <div class="md-toolbar-section-start" >
-          <md-button class="md-icon-button"  @click="menuVisible = !menuVisible">
-            <md-icon>menu</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" @click="goback">
+              <md-icon >keyboard_arrow_left</md-icon>
+            </md-button>
         </div>
                   <div class="md-toolbar-section-end">
-            <md-button class="md-icon-button" @click="goback">
-              <md-icon >undo</md-icon>
-            </md-button>
+
+                      <md-button class="md-icon-button"  @click="menuVisible = !menuVisible">
+            <md-icon>menu</md-icon>
+          </md-button>
           </div>
         <div class="md-toolbar-section-start" >
           <md-title>{{eosaccount}}</md-title>

@@ -108,9 +108,7 @@
   }
 </style>
 <script>
-import Eos from 'eosjs'
 import {eos} from '../main'
-import {student} from '../main'
   const getLocalTime=(nS) =>{     
    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
 }
@@ -128,19 +126,14 @@ export default {
             studentname:"",
             registration_date:"",
             expiration_date:"",
-            // actionId:'',
-            // blockId:'',
-            // block_time:'',
         }
     },
     computed:{
         left:function(){this.mess();return this.leftnum},
-
-
     },
     methods:{
           mess(){
-              this.name=student.name;
+              this.name=this.$account.name;
               this.getAccountInfo();
           },
       async  getAccountInfo() {
@@ -211,18 +204,18 @@ export default {
                             }});
         },
         async renew(){
-            var res = await eos.transaction({
+            var res = await this.$eos.transaction({
                               actions: [
                               {
                                   account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
                                   name: "transfer",
                                   authorization: [{
-                                      actor: student.account.name,
-                                      permission: student.account.authority
+                                      actor: this.$account.name,
+                                      permission: this.$account.authority
                                   }
                                   ],
                                   data: {
-                                      from: student.account.name,
+                                      from: this.$account.name,
                                       to: 'zjubcatest12',
                                       quantity: "10000.0000 AAA",
                                       memo: "renew$"+"my"+"$"+"account",

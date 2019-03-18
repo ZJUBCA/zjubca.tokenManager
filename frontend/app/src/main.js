@@ -53,7 +53,10 @@ ScatterJS.scatter.connect('ZJUBCA.VOTE', {
   let scatter = ScatterJS.scatter;
   await scatter.getIdentity({accounts: [network]}).then(identity=>{console.log(identity)});
   const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
-
+  const eos = scatter.eos(network, Eos, {expireInSeconds: 20});
+  Vue.prototype.$scatter = scatter;
+  Vue.prototype.$account = account;
+  Vue.prototype.$eos = eos;
 student={
   name:account.name,
   account:account,
