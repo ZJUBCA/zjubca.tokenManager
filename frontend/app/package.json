@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp CNAME dist/CNAME",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
