@@ -9,8 +9,7 @@
             </md-button>
         </div>
                   <div class="md-toolbar-section-end">
-
-                      <md-button class="md-icon-button"  @click="menuVisible = !menuVisible">
+            <md-button class="md-icon-button"  @click="menuVisible = !menuVisible">
             <md-icon>menu</md-icon>
           </md-button>
           </div>
