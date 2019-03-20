@@ -52,7 +52,7 @@
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:30vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:32vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
