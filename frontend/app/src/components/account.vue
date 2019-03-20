@@ -189,16 +189,20 @@ export default {
                 this.ok=!this.ok;
         },
       onSelect (item) {
+        this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                           params: { 
-                                item: item
-                            }});
+                          //  params: { 
+                          //       item: item
+                          //   }
+                            });
       },
         toall(){
+          this.$store.state.pageaccount=this.name;
           this.$router.push({name:'pages',
-          params: { 
-                account: this.name, 
-                            }});
+          // params: { 
+          //       account: this.name, 
+          //                   }
+                            });
         },
         async renew(){
           const network = {

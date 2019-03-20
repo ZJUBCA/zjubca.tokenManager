@@ -9,6 +9,9 @@ const state = {
   login:false,
   scatter:null,
   eos:null,
+  searchaccount:null,
+  item:null,
+  pageaccount:null,
 }
 
 export default new Vuex.Store({

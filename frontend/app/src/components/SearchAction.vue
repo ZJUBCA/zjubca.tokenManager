@@ -61,7 +61,7 @@ import {eos} from '../main';
         },
         methods: {
           getParams(){
-            this.item=this.$route.params.item;
+            this.item=this.$store.state.item;
           },
         // onSelect (item) {
         //     this.$router.push({name:'SearchAction',

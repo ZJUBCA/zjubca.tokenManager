@@ -71,7 +71,7 @@ export default {
         }
     },
     computed:{
-        message:function(){this.actionindex[0]=-1;this.account=this.$route.params.account;this.getPage();return "Actions";},
+        message:function(){this.actionindex[0]=-1;this.account=this.$store.state.pageaccount;this.getPage();return "Actions";},
     },
     methods:{
         async getPage(){
@@ -135,10 +135,12 @@ export default {
             }
         },
       onSelect (item) {
+        this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                           params: { 
-                                item: item
-                            }});
+                          //  params: { 
+                          //       item: item
+                          //   }
+                            });
       },
     }
 }

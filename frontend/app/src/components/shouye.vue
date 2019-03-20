@@ -192,16 +192,20 @@ import {eos} from '../main';
                 this.ok=!this.ok;
           },
       onSelect (item) {
+        this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                           params: { 
-                                item: item
-                            }});
+                          //  params: { 
+                          //       item: item
+                          //   }
+                            });
       },
         toall(){
+          this.$store.state.pageaccount='zjubcatest11'
           this.$router.push({name:'pages',
-          params: { 
-                account: 'zjubcatest11', 
-                            }});
+          // params: { 
+          //       account: 'zjubcatest11', 
+          //                   }
+                            });
         },
         }
     }

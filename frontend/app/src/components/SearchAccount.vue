@@ -105,7 +105,9 @@ export default {
         }
     },
     computed:{
-        left:function(){this.name=this.$route.params.Account;this.getAccountInfo();return this.leftnum},
+        left:function(){this.name=this.$store.state.searchaccount;
+        //  this.name=this.$route.params.Account;
+        this.getAccountInfo();return this.leftnum},
     },
     methods:{
       async  getAccountInfo() {
@@ -150,10 +152,12 @@ export default {
                 this.ok=!this.ok;
         },
       onSelect (item) {
+        this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                           params: { 
-                                item: item
-                            }});
+                          //  params: { 
+                          //       item: item
+                          //   }
+                            });
       },
         toall(){
           this.$router.push({name:'pages',

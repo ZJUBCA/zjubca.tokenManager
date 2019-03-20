@@ -96,10 +96,12 @@ import {eos} from '../main'
           this.ok=!this.ok;
       },
       onSelect (item) {
+        this.$store.state.searchaccount=item.eosid;
         this.$router.push({name:'SearchAccount',
-                           params: { 
-                                Account: item.eosid
-                            }});
+                          //  params: { 
+                          //       Account: item.eosid
+                          //   }
+                            });
       },
     },
     computed:{
