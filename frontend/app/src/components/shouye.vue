@@ -3,7 +3,7 @@
       
         <div id="content1" md-layout md-gutter >
           <div class="md-layout-item md-layout md-gutter">
-          <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100" style="margin-top:2vw">
+          <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100" style="margin-top:0vw">
               <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
                 <md-card-header>
                   <md-card-header-text>
@@ -37,7 +37,7 @@
 
               </md-card>
             </div>            
-            <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100" style="margin-top:2vw">
+            <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100" style="margin-top:4vw">
               <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
                 <md-card-header>
                   <md-card-header-text>
@@ -68,7 +68,7 @@
             </div>
         
           </div>
-    <md-card id="recent-action" style="margin-top:3vw">
+    <md-card id="recent-action" style="margin-top:5vw">
               <md-card-header>
                   <md-card-header-text>
                     <div class="md-title" >最近交易</div>
@@ -79,7 +79,7 @@
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive" style="margin-top:0vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;" >
     <thead>
       <tr>
@@ -92,7 +92,7 @@
         </tr>
     </thead>
     <tbody>
-      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.height" >
+      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.id" >
         <td>{{item.from}}</td>
         <td>{{item.to}}</td>
         <td>{{item.quantity}}</td>
@@ -149,8 +149,6 @@ import {eos} from '../main';
             transactions:[]
           }
         },
-        created:{
-        },
         computed:{
            max:function(){this.getTotalNum();return this.max_supply},
         },
@@ -181,6 +179,7 @@ import {eos} from '../main';
                                      "quantity":result.actions[n-i-1].action_trace.act.data.quantity,
                                      "memo":result.actions[n-i-1].action_trace.act.data.memo,
                                      "height":result.actions[n-i-1].block_num,
+                                     "id":count,
                                      };   
                     count=count+1;            
                     if(count==20){

@@ -1,9 +1,9 @@
 <template>
-  <div class="centered-container">
+  <div class="centered-container" style="margin-left:4vw;margin-right:4vw;">
+
     <md-content class="md-elevation-3">
 
       <div class="title">
-        <!-- <img src="https://vuematerial.io/assets/logo-color.png"> -->
         <div class="md-title">ZJUBCA</div>
         <div class="md-body-1">注册</div>
       </div>
@@ -19,9 +19,11 @@
         </md-field>
       </div>
 
-      <div class="actions md-layout md-alignment-center-space-between">
-        <md-button class="md-raised md-primary" @click="regis">注册</md-button>
-      </div>
+      <!-- <div class="actions md-layout md-alignment-right" style="padding-right: 0;"> -->
+         <md-card-actions>
+        <md-button class="md-raised md-primary" style="margin-right:0;" @click="regis">注册</md-button>
+         </md-card-actions>
+      <!-- </div> -->
 
       <div class="loading-overlay" v-if="loading">
         <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
@@ -34,14 +36,13 @@
 
 <script>
   import {student} from '../main'
+  import Eos from 'eosjs'
   export default {
     name: "App",
     data() {
       return {
         loading: false,
         studentInfo: {
-          email: "",
-          password: "",
           studentId: "",
           EosId: "",
           FullName: "",
@@ -50,34 +51,39 @@
     },
     methods: {
       auth() {
-        // your code to login user
-        // this is only for example of loading
         this.loading = true;
         setTimeout(() => {
           this.loading = false;
         }, 5000);
       },
       async regis() {
-        console.log(this.$eos);
-            var res = await this.$eos.transaction({
+          const network = {
+            blockchain: 'eos',
+            protocol: 'https',
+            host: 'api-kylin.eoslaomao.com',
+            port: 443,
+            chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
+          };
+          const scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
+            var res = await scattereos.transaction({
                               actions: [
                               {
                                   account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
                                   name: "transfer",
                                   authorization: [{
-                                      actor: student.account.name,
-                                      permission: student.account.authority
+                                      actor: this.$store.state.account.name,
+                                      permission: this.$store.state.account.authority
                                   }
                                   ],
                                   data: {
-                                      from: student.account.name,
+                                      from: this.$store.state.account.name,
                                       to: 'zjubcatest12',
                                       quantity: "10000.0000 AAA",
                                       memo: "enroll$"+this.studentInfo.FullName+"$"+this.studentInfo.studentId,
                                   }
                               }]
                           }).catch(error => {
-                              console.error(error);
+                              console.log(error);
                               alert("注册失败")
                           });
       }
@@ -101,9 +107,11 @@
       }
     }
     .actions {
-      .md-button {
-        margin: 0;
-      }
+      margin-right: 0vw;
+      padding-right: 0;
+      // .md-button {
+      //   margin-right: 0;
+      // }
     }
     .form {
       margin-bottom: 0px;

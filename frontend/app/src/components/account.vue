@@ -17,30 +17,30 @@
         <md-card-content>
                 <md-table>
 
-                <md-table-row :key="accounname">
+                <md-table-row >
                     <md-table-cell >Account Name</md-table-cell>
                     <md-table-cell>{{name}}</md-table-cell>
                 </md-table-row>
 
-                <md-table-row :key="id">
+                <md-table-row >
                     <md-table-cell>StudentId</md-table-cell>
                     <md-table-cell>{{StudentId}}</md-table-cell>
                 </md-table-row>
 
-                <md-table-row :key="st">
+                <md-table-row >
                     <md-table-cell>studentname</md-table-cell>
                     <md-table-cell>{{studentname}}</md-table-cell>
                 </md-table-row>
 
-                <md-table-row :key="time">
+                <md-table-row >
                     <md-table-cell>注册时间</md-table-cell>
                     <md-table-cell>{{registration_date}}</md-table-cell>
                 </md-table-row>
-                <md-table-row :key="retime">
+                <md-table-row>
                     <md-table-cell>注册到期时间</md-table-cell>
                     <md-table-cell>{{expiration_date}}</md-table-cell>
                 </md-table-row>
-                <md-table-row :key="left">
+                <md-table-row >
                     <md-table-cell>余额</md-table-cell>
                     <md-table-cell>{{left}}</md-table-cell>
                 </md-table-row>
@@ -52,7 +52,7 @@
 
       </md-ripple>
     </md-card>
-    <md-card>
+    <md-card style="margin-top:5vw">
               <md-card-header>
                   <md-card-header-text>
                     <div class="md-title" >最近交易</div>
@@ -63,7 +63,7 @@
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
@@ -76,7 +76,7 @@
         </tr>
     </thead>
     <tbody>
-      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.height">
+      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.id">
         <td>{{item.from}}</td>
         <td>{{item.to}}</td>
         <td>{{item.quantity}}</td>
@@ -95,12 +95,11 @@
 </div>
 </template>
 <style lang="scss" scoped>
-  .md-card {
-    width:80vw ;
-    margin: 4px;
-    display: inline-block;
-    vertical-align: top;
-  }
+  // .md-card {
+  //   margin: 2px;
+  //   display: inline-block;
+  //   vertical-align: top;
+  // }
   td{
     white-space: nowrap;
     overflow: hidden;
@@ -109,6 +108,9 @@
 </style>
 <script>
 import {eos} from '../main'
+import ScatterJS from 'scatterjs-core'
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+import Eos from 'eosjs'
   const getLocalTime=(nS) =>{     
    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
 }
@@ -133,19 +135,16 @@ export default {
     },
     methods:{
           mess(){
-              this.name=this.$account.name;
+              this.name=this.$store.state.account.name;
               this.getAccountInfo();
           },
       async  getAccountInfo() {
             //studentid
             await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
-            console.log(res)
             let nn=res.rows.length;
-            console.log(res.rows[1].eosaccount===this.name);
             let ii;
             for(ii=0;ii<nn;ii++){
                 if(res.rows[ii].eosaccount===this.name){
-                  console.log("ok");
                     this.StudentId=res.rows[ii].studentid;
                     this.studentname=res.rows[ii].studentname;
                     this.registration_date=getLocalTime(res.rows[ii].registration_date);
@@ -165,14 +164,11 @@ export default {
             //get actions
             let n;
             await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -50}).then(async result=>{
-                console.log(result)
                 n=result.actions.length;
-                console.log(n)
                 let count=0;
                 for(var i=0;i<n;i++){
                     if(result.actions[n-i-1].action_trace.act.name==="transfer"&&
                             result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatest11"){
-                    //console.log(i)
                     this.actions[count]={
                                     "time":result.actions[n-i-1].block_time,
                                     "from":result.actions[n-i-1].action_trace.act.data.from,
@@ -180,6 +176,7 @@ export default {
                                      "quantity":result.actions[n-i-1].action_trace.act.data.quantity,
                                      "memo":result.actions[n-i-1].action_trace.act.data.memo,
                                      "height":result.actions[n-i-1].block_num,
+                                     "id":count,
                                      };   
                     count=count+1;            
                     if(count==20){
@@ -204,25 +201,33 @@ export default {
                             }});
         },
         async renew(){
-            var res = await this.$eos.transaction({
+          const network = {
+            blockchain: 'eos',
+            protocol: 'https',
+            host: 'api-kylin.eoslaomao.com',
+            port: 443,
+            chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
+          };
+          const scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
+            var res = await scattereos.transaction({
                               actions: [
                               {
                                   account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
                                   name: "transfer",
                                   authorization: [{
-                                      actor: this.$account.name,
-                                      permission: this.$account.authority
+                                      actor: this.$store.state.account.name,
+                                      permission: this.$store.state.account.authority
                                   }
                                   ],
                                   data: {
-                                      from: this.$account.name,
+                                      from: this.$store.state.account.name,
                                       to: 'zjubcatest12',
                                       quantity: "10000.0000 AAA",
                                       memo: "renew$"+"my"+"$"+"account",
                                   }
                               }]
                           }).catch(error => {
-                              console.error(error);
+                              console.log(error);
                               alert("更新失败")
                           });
     }

@@ -9,7 +9,7 @@
 
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.height">
+      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.id">
         <td>{{item.from}}</td>
         <td>{{item.to}}</td>
         <td>{{item.quantity}}</td>
@@ -109,6 +109,7 @@ export default {
                                      "quantity":result.actions[n-i-1].action_trace.act.data.quantity,
                                      "memo":result.actions[n-i-1].action_trace.act.data.memo,
                                      "height":result.actions[n-i-1].block_num,
+                                     "id":count,
                                      };   
                     count=count+1;            
                     if(count==10){

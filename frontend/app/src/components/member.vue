@@ -76,7 +76,6 @@ import {eos} from '../main'
       },
       async getMembers(){
           await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
-              console.log(res)
             let nn=res.rows.length;
             let ii;
             for(ii=0;ii<nn;ii++){

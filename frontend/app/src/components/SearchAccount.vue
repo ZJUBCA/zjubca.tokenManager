@@ -1,9 +1,7 @@
 <template>
 <div>
-    <div v-if="login" >
-    </div>
-    <div v-else>
-    <md-card md-with-hover>
+    <div >
+    <md-card md-with-hover class="md-alignment-space-between">
       <md-ripple>
         <md-card-header>
           <div class="md-title">Account Information</div>
@@ -54,7 +52,7 @@
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:35vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
@@ -67,7 +65,7 @@
         </tr>
     </thead>
     <tbody>
-      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.height">
+      <tr @click="onSelect(item)" v-for="item in actions" v-bind:key="item.id">
         <td>{{item.from}}</td>
         <td>{{item.to}}</td>
         <td>{{item.quantity}}</td>
@@ -84,12 +82,7 @@
 </div>
 </template>
 <style lang="scss" scoped>
-  .md-card {
-    width:80vw ;
-    margin: 4px;
-    display: inline-block;
-    vertical-align: top;
-  }
+
 </style>
 <script>
   const getLocalTime=(nS) =>{     
@@ -109,9 +102,6 @@ export default {
             transactions:[],
             studentname:"",
             registration_date:"",
-            // actionId:'',
-            // blockId:'',
-            // block_time:'',
         }
     },
     computed:{
@@ -120,13 +110,10 @@ export default {
     methods:{
       async  getAccountInfo() {
                       await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
-            console.log(res)
             let nn=res.rows.length;
-            console.log(res.rows[1].eosaccount===this.name);
             let ii;
             for(ii=0;ii<nn;ii++){
                 if(res.rows[ii].eosaccount===this.name){
-                  console.log("ok");
                     this.StudentId=res.rows[ii].studentid;
                     this.studentname=res.rows[ii].studentname;
                     this.registration_date=getLocalTime(res.rows[ii].registration_date);
@@ -137,14 +124,12 @@ export default {
             eos.getCurrencyBalance({code:'zjubcatest11',account:this.name,symbol:'AAA'}).then(result=>{this.leftnum=result[0]});
             let n;
               await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -50}).then(async result=>{
-                console.log(result)
                 n=result.actions.length;
-                console.log(n)
                 let count=0;
                 for(var i=0;i<n;i++){
                     if(result.actions[n-i-1].action_trace.act.name==="transfer"&&
                             result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatest11"){
-                    //console.log(i)
+        
                     this.actions[count]={
                                     "time":result.actions[n-i-1].block_time,
                                     "from":result.actions[n-i-1].action_trace.act.data.from,
@@ -152,6 +137,7 @@ export default {
                                      "quantity":result.actions[n-i-1].action_trace.act.data.quantity,
                                      "memo":result.actions[n-i-1].action_trace.act.data.memo,
                                      "height":result.actions[n-i-1].block_num,
+                                     "id":count,
                                      };   
                     count=count+1;            
                     if(count==20){
@@ -162,8 +148,13 @@ export default {
                 }
                 });
                 this.ok=!this.ok;
-                this.getStudentInfo();
         },
+      onSelect (item) {
+        this.$router.push({name:'SearchAction',
+                           params: { 
+                                item: item
+                            }});
+      },
         toall(){
           this.$router.push({name:'pages',
           params: { 
