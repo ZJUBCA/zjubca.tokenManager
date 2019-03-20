@@ -37,7 +37,8 @@
 
               </md-card>
             </div>            
-            <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100" style="margin-top:4vw">
+            <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100" >
+  
               <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
                 <md-card-header>
                   <md-card-header-text>
@@ -68,7 +69,7 @@
             </div>
         
           </div>
-    <md-card id="recent-action" style="margin-top:5vw">
+    <md-card id="recent-action" style="margin-top:4vw">
               <md-card-header>
                   <md-card-header-text>
                     <div class="md-title" >最近交易</div>
@@ -79,7 +80,7 @@
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive" style="margin-top:0vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:30vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;" >
     <thead>
       <tr>
@@ -125,6 +126,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .show{
+    margin-top:4vw;
+  }
+@media (max-width: 600px){
+.md-layout-item.md-medium-size-36.md-small-size-50.md-xsmall-size-100 {
+    margin-top: 4vw;
+}  
+}
+
 </style>
 <script>
 const getLocalTime=(nS) =>{     
@@ -146,7 +156,7 @@ import {eos} from '../main';
             next_release_day:'',
             release_amount_pertime:'',
             released_times:'',
-            transactions:[]
+            transactions:[],
           }
         },
         computed:{
@@ -207,7 +217,8 @@ import {eos} from '../main';
           //                   }
                             });
         },
-        }
+        },
+
     }
 </script>
 

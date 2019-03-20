@@ -41,7 +41,7 @@
 
       </md-ripple>
     </md-card>
-    <md-card>
+    <md-card style="margin-top:4vw">
               <md-card-header>
                   <md-card-header-text>
                     <div class="md-title" >最近交易</div>
@@ -51,8 +51,8 @@
                   </md-menu>
         </md-card-header>
       <md-card-content>
-                <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
+                <div class="table-responsive">
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:30vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
