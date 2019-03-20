@@ -9,7 +9,7 @@
 
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:28vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:30vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
