@@ -16,8 +16,8 @@ import 'vue-material/dist/theme/default.css'
 import infiniteScroll from 'vue-infinite-scroll'
 import store from './store'
 
-import ScatterJS from 'scatterjs-core'
-import ScatterEOS from 'scatterjs-plugin-eosjs'
+import ScatterJS from 'zjubca-scatterjs-core'
+import ScatterEOS from 'zjubca-scatterjs-plugin-eosjs'
 import Eos from 'eosjs'
 import VueMaterial from 'vue-material'
 //import { EIO } from 'constants';
@@ -67,17 +67,17 @@ Vue.use(infiniteScroll);
 // });
 const EosApi = require('eosjs-api');
 const config = {
-    chainId: "5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191", // 32 byte (64 char) hex string
-    keyProvider: [], // WIF string or array of keys..
-    httpEndpoint: 'https://api-kylin.eoslaomao.com',
-    expireInSeconds: 60,
-    broadcast: true,
-    verbose: false, // API activity
-    sign: true,
-  };
+  chainId: "5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191", // 32 byte (64 char) hex string
+  keyProvider: [], // WIF string or array of keys..
+  httpEndpoint: 'https://api-kylin.eoslaomao.com',
+  expireInSeconds: 60,
+  broadcast: true,
+  verbose: false, // API activity
+  sign: true,
+};
 const eos = EosApi(config);
 
-export{
+export {
   // student,
   eos
 };
