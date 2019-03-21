@@ -164,7 +164,7 @@ export default {
           },
       async  getAccountInfo() {
             //studentid
-            await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
+            await eos.getTableRows({code: "zjubcamember",scope:"zjubcamember",table:"members",json:"true"}).then(res=>{
             let nn=res.rows.length;
             let ii;
             for(ii=0;ii<nn;ii++){
@@ -185,7 +185,7 @@ export default {
             }
             })
             //student currency balance
-            eos.getCurrencyBalance({code:'zjubcatest11',account:this.name,symbol:'AAA'}).then(result=>{this.leftnum=result[0]});
+            eos.getCurrencyBalance({code:'zjubcatokens',account:this.name,symbol:'ZJUBCA'}).then(result=>{this.leftnum=result[0]});
             //get actions
             let n;
             await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -50}).then(async result=>{
@@ -193,7 +193,7 @@ export default {
                 let count=0;
                 for(var i=0;i<n;i++){
                     if(result.actions[n-i-1].action_trace.act.name==="transfer"&&
-                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatest11"){
+                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatokens"){
                     this.actions[count]={
                                     "time":result.actions[n-i-1].block_time,
                                     "from":result.actions[n-i-1].action_trace.act.data.from,
@@ -238,10 +238,11 @@ export default {
             chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
           };
           const scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
+          console.log(this.$store.state.account.authority);
             var res = await scattereos.transaction({
                               actions: [
                               {
-                                  account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                                  account: 'zjubcatokens', //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
                                   name: "transfer",
                                   authorization: [{
                                       actor: this.$store.state.account.name,
@@ -250,8 +251,8 @@ export default {
                                   ],
                                   data: {
                                       from: this.$store.state.account.name,
-                                      to: 'zjubcatest12',
-                                      quantity: "10000.0000 AAA",
+                                      to: 'zjubcamember',
+                                      quantity: "10000.0000 ZJUBCA",
                                       memo: "renew$"+"my"+"$"+"account",
                                   }
                               }]

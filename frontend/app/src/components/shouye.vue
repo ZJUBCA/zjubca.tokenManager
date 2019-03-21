@@ -165,8 +165,8 @@ import {eos} from '../main';
 
         methods: {
          async getTotalNum(){
-            eos.getTableRows({code: "zjubcatest11",scope:"AAA",table:"stat",json:"true"}).then(async result=>{
-                                  
+            eos.getTableRows({code: "zjubcatokens",scope:"ZJUBCA",table:"stat",json:"true"}).then(async result=>{
+                                  console.log(result);
                                   this.max_supply=result.rows[0].max_supply;
                                   this.supply=result.rows[0].supply;
                                   this.frozen_amount=result.rows[0].frozen_amount;
@@ -176,12 +176,13 @@ import {eos} from '../main';
                                   this.next_release_day=getLocalTime(result.rows[0].next_release_day);
                                   });
                              let n;
-              await  eos.getActions({"account_name":"zjubcatest11" , "pos": -1, "offset": -50}).then(async result=>{
+              await  eos.getActions({"account_name":"zjubcatokens" , "pos": -1, "offset": -50}).then(async result=>{
+                console.log(result);
                 n=result.actions.length;
                 let count=0;
                 for(var i=0;i<n;i++){
                     if(result.actions[n-i-1].action_trace.act.name==="transfer"&&
-                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatest11"){
+                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatokens"){
                     this.actions[count]={
                                     "time":result.actions[n-i-1].block_time,
                                     "from":result.actions[n-i-1].action_trace.act.data.from,
@@ -210,10 +211,10 @@ import {eos} from '../main';
                             });
       },
         toall(){
-          //this.$store.state.pageaccount='zjubcatest11'
+          //this.$store.state.pageaccount='zjubcatokens'
           this.$router.push({name:'pages',
           query: { 
-                account: 'zjubcatest11', 
+                account: 'zjubcatokens', 
                             }
                             });
         },

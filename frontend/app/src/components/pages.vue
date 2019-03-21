@@ -113,7 +113,7 @@ export default {
                 }
                 for(i=0;i<n;i++){
                     if(result.actions[n-i-1].action_trace.act.name==="transfer"&&
-                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatest11"){
+                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatokens"){
                     //console.log(i)
                     this.actions[count]={
                                     "time":result.actions[n-i-1].block_time,

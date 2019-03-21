@@ -113,7 +113,7 @@ export default {
     },
     methods:{
       async  getAccountInfo() {
-                      await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
+                      await eos.getTableRows({code: "zjubcamember",scope:"zjubcamember",table:"members",json:"true"}).then(res=>{
             let nn=res.rows.length;
             let ii;
             for(ii=0;ii<nn;ii++){
@@ -125,14 +125,14 @@ export default {
                 }
             }
             })
-            eos.getCurrencyBalance({code:'zjubcatest11',account:this.name,symbol:'AAA'}).then(result=>{this.leftnum=result[0]});
+            eos.getCurrencyBalance({code:'zjubcatokens',account:this.name,symbol:'ZJUBCA'}).then(result=>{this.leftnum=result[0]});
             let n;
               await  eos.getActions({"account_name":this.name , "pos": -1, "offset": -50}).then(async result=>{
                 n=result.actions.length;
                 let count=0;
                 for(var i=0;i<n;i++){
                     if(result.actions[n-i-1].action_trace.act.name==="transfer"&&
-                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatest11"){
+                            result.actions[n-i-1].action_trace.receipt.receiver==="zjubcatokens"){
         
                     this.actions[count]={
                                     "time":result.actions[n-i-1].block_time,

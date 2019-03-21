@@ -75,7 +75,7 @@ import {eos} from '../main'
         this.searched = searchByName(this.users, this.search)
       },
       async getMembers(){
-          await eos.getTableRows({code: "zjubcatest12",scope:"zjubcatest12",table:"members",json:"true"}).then(res=>{
+          await eos.getTableRows({code: "zjubcamember",scope:"zjubcamember",table:"members",json:"true"}).then(res=>{
             let nn=res.rows.length;
             let ii;
             for(ii=0;ii<nn;ii++){
