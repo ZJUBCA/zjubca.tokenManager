@@ -93,11 +93,12 @@
               "eosid": res.rows[nn - ii - 1].eosaccount,
               "registime": getLocalTime(res.rows[nn - ii - 1].registration_date),
               "endtime": getLocalTime(res.rows[nn - ii - 1].expiration_date),
+
             }
             if (res.rows[nn - ii - 1].expiration_date < Date.parse(new Date()) / 1000) {
               this.users[ii].name = this.users[ii].name + "(已过期）"
-
             }
+
           }
           this.searched = this.users;
 
