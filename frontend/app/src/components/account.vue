@@ -94,6 +94,11 @@
       :md-active.sync="success"
       md-content="续期失败!" 
        md-confirm-text="OK!"/>
+
+              <md-dialog-alert
+      :md-active.sync="third"
+      md-content="请先注册!" 
+       md-confirm-text="OK!"/>
     </div>
 </div>
 </template>
@@ -132,12 +137,16 @@ export default {
             registration_date:"",
             expiration_date:"",
             success:false,
+            second:false,
+            third:false,
         }
     },
     computed:{
-        left:function(){this.mess();return this.leftnum},
+        left:function(){          
+          this.mess();return this.leftnum},
     },
     methods:{
+        
           mess(){
               this.name=this.$store.state.account.name;
               this.getAccountInfo();
@@ -160,7 +169,9 @@ export default {
                 }
             }
             if(ii===nn){
-              alert("请先注册！")
+              //alert("请先注册！")
+              this.third=true;
+              this.$router.go(-1);
             }
             })
             //student currency balance

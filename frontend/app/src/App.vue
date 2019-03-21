@@ -105,7 +105,7 @@ export default {
   },
   watch:{
   $route(now,old){     //监控路由变换，控制返回按钮的显示
-     if(now.path=="/"){
+     if(now.path=="/"||now.path=="/account"||now.path=="/member"){
             this.isShow=false;
      } else{
          this.isShow=true;
