@@ -95,10 +95,14 @@
       md-content="续期失败!" 
        md-confirm-text="OK!"/>
 
-              <md-dialog-alert
+              <md-dialog-confirm
       :md-active.sync="third"
       md-content="请先注册!" 
-       md-confirm-text="OK!"/>
+      md-cancel-text="以后再说"
+       md-confirm-text="前往注册"
+      @md-cancel="onCancel"
+       @md-confirm="onConfirm"
+       />
     </div>
 </div>
 </template>
@@ -146,7 +150,14 @@ export default {
           this.mess();return this.leftnum},
     },
     methods:{
-        
+        onConfirm () {
+        this.$router.push({
+          name:'regis',
+        });
+      },
+      onCancel () {
+        this.$router.go(-1);
+      },
           mess(){
               this.name=this.$store.state.account.name;
               this.getAccountInfo();
@@ -171,7 +182,6 @@ export default {
             if(ii===nn){
               //alert("请先注册！")
               this.third=true;
-              this.$router.go(-1);
             }
             })
             //student currency balance
