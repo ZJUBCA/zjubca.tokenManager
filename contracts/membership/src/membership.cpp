@@ -46,8 +46,8 @@ void membership::transfer(name from, name to, asset quantity, string memo) {
     // check register fee
     eosio_assert(quantity.is_valid(), "Invalid token transfer...");
     eosio_assert(quantity.amount == 10000 * 1e4,
-                 "Wrong register fee! It is supposed to be 10000.0000 AAA");
-    eosio_assert(quantity.symbol == symbol("AAA", 4), "Wrong token symbol!");
+                 "Wrong register fee! It is supposed to be 10000.0000 ZJUBCA");
+    eosio_assert(quantity.symbol == symbol("ZJUBCA", 4), "Wrong token symbol!");
 
     _members.emplace(_self, [&](auto& m) {
       m.eosaccount = from;
@@ -65,8 +65,8 @@ void membership::transfer(name from, name to, asset quantity, string memo) {
     eosio_assert(quantity.amount > 0, "Renewal must be positive");
     eosio_assert(quantity.amount % (int64_t)(10000 * 1e4) == 0,
                  "Wrong renewal! It is supposed to be multiple of 10000.0000 "
-                 "AAAwith 4      decimal digits");
-    eosio_assert(quantity.symbol == symbol("AAA", 4), "Wrong token symbol!");
+                 "ZJUBCA with 4 decimal digits");
+    eosio_assert(quantity.symbol == symbol("ZJUBCA", 4), "Wrong token symbol!");
 
     uint64_t durations = quantity.amount / (10000 * 1e4);
     _members.modify(kid, same_payer, [&](auto& m) {
@@ -111,9 +111,9 @@ void apply(uint64_t receiver, uint64_t code, uint64_t action) {
       case name("droptable").value:
         execute_action(name(receiver), name(code), &membership::droptable);
     }
-  } else if (code == name("zjubcatest11").value &&
+  } else if (code == name("zjubcatokens").value &&
              action == name("transfer").value) {
-    execute_action(name(receiver), name("zjubcatest12"), &membership::transfer);
+    execute_action(name(receiver), name("zjubcamember"), &membership::transfer);
   }
 }
 };
