@@ -33,6 +33,7 @@
                 </md-table-row>
               </md-table>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             </md-card-content>
 
@@ -69,6 +70,25 @@
 
 <<<<<<< HEAD
 =======
+
+>>>>>>> a47a2820dcf1a3f4c55347c6af32f366da653c5f
+=======
+
+            </md-card-content>
+
+          </md-card>
+        </div>
+        <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100">
+
+          <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
+            <md-card-header>
+              <md-card-header-text>
+                <div class="md-title" style="text-align:center">下一次解锁</div>
+              </md-card-header-text>
+
+
+            </md-card-header>
+
 
 >>>>>>> a47a2820dcf1a3f4c55347c6af32f366da653c5f
             <md-card-content>
