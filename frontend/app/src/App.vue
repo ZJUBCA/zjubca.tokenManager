@@ -160,7 +160,7 @@
           let scatter = ScatterJS.scatter;
           await scatter.getIdentity({accounts: [network]}).then(async identity => {
             const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
-
+            console.log(account);
             this.$store.state.scatter = scatter;
             this.$store.state.account = account;
             this.$store.state.login = true;

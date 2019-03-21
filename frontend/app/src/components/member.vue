@@ -79,8 +79,8 @@
 
       async getMembers() {
         await eos.getTableRows({
-          code: "zjubcatest12",
-          scope: "zjubcatest12",
+          code: "zjubcamember",
+          scope: "zjubcamember",
           table: "members",
           json: "true"
         }).then(res => {

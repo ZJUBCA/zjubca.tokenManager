@@ -76,7 +76,7 @@
         var res = await scattereos.transaction({
           actions: [
             {
-              account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+              account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
               name: "transfer",
               authorization: [{
                 actor: this.$store.state.account.name,
@@ -85,8 +85,8 @@
               ],
               data: {
                 from: this.$store.state.account.name,
-                to: 'zjubcatest12',
-                quantity: "10000.0000 AAA",
+                to: 'zjubcamember',
+                quantity: "10000.0000 ZJUBCA",
                 memo: "enroll$" + this.studentInfo.FullName + "$" + this.studentInfo.studentId,
               }
             }]

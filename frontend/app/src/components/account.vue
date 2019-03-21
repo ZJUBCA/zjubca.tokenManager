@@ -170,8 +170,8 @@
       async getAccountInfo() {
         //studentid
         await eos.getTableRows({
-          code: "zjubcatest12",
-          scope: "zjubcatest12",
+          code: "zjubcamember",
+          scope: "zjubcamember",
           table: "members",
           json: "true"
         }).then(res => {
@@ -196,7 +196,7 @@
           }
         })
         //student currency balance
-        eos.getCurrencyBalance({code: 'zjubcatest11', account: this.name, symbol: 'AAA'}).then(result => {
+        eos.getCurrencyBalance({code: 'zjubcatokens', account: this.name, symbol: 'ZJUBCA'}).then(result => {
           this.leftnum = result[0]
         });
         //get actions
@@ -206,7 +206,7 @@
           let count = 0;
           for (var i = 0; i < n; i++) {
             if (result.actions[n - i - 1].action_trace.act.name === "transfer" &&
-              result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatest11") {
+              result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatokens") {
               this.actions[count] = {
                 "time": result.actions[n - i - 1].block_time,
                 "from": result.actions[n - i - 1].action_trace.act.data.from,
@@ -258,7 +258,7 @@
         var res = await scattereos.transaction({
           actions: [
             {
-              account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+              account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
               name: "transfer",
               authorization: [{
                 actor: this.$store.state.account.name,
@@ -267,8 +267,8 @@
               ],
               data: {
                 from: this.$store.state.account.name,
-                to: 'zjubcatest12',
-                quantity: "10000.0000 AAA",
+                to: 'zjubcamember',
+                quantity: "10000.0000 ZJUBCA",
                 memo: "renew$" + "my" + "$" + "account",
               }
             }]

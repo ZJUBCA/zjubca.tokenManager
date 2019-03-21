@@ -32,8 +32,9 @@
                   <md-table-cell>{{issuer}}</md-table-cell>
                 </md-table-row>
               </md-table>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
+
 
             </md-card-content>
 
@@ -41,44 +42,6 @@
         </div>
         <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100">
 
-          <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
-            <md-card-header>
-              <md-card-header-text>
-                <div class="md-title" style="text-align:center">下一次解锁</div>
-              </md-card-header-text>
-=======
-
-            </md-card-content>
-
-          </md-card>
-        </div>
-        <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100">
->>>>>>> a47a2820dcf1a3f4c55347c6af32f366da653c5f
-
-          <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
-            <md-card-header>
-              <md-card-header-text>
-                <div class="md-title" style="text-align:center">下一次解锁</div>
-              </md-card-header-text>
-
-<<<<<<< HEAD
-            </md-card-header>
-=======
->>>>>>> a47a2820dcf1a3f4c55347c6af32f366da653c5f
-
-            </md-card-header>
-
-<<<<<<< HEAD
-=======
-
->>>>>>> a47a2820dcf1a3f4c55347c6af32f366da653c5f
-=======
-
-            </md-card-content>
-
-          </md-card>
-        </div>
-        <div class="md-layout-item md-medium-size-36 md-small-size-50 md-xsmall-size-100">
 
           <md-card class="zjutokeninfo" style="margin-top:1vw;margin-left:3vw;margin-right:3vw">
             <md-card-header>
@@ -87,10 +50,10 @@
               </md-card-header-text>
 
 
+
             </md-card-header>
 
 
->>>>>>> a47a2820dcf1a3f4c55347c6af32f366da653c5f
             <md-card-content>
               <md-table>
                 <md-table-row>
@@ -215,7 +178,7 @@
 
     methods: {
       async getTotalNum() {
-        eos.getTableRows({code: "zjubcatest11", scope: "AAA", table: "stat", json: "true"}).then(async result => {
+        eos.getTableRows({code: "zjubcatokens", scope: "ZJUBCA", table: "stat", json: "true"}).then(async result => {
 
           this.max_supply = result.rows[0].max_supply;
           this.supply = result.rows[0].supply;
@@ -226,12 +189,12 @@
           this.next_release_day = getLocalTime(result.rows[0].next_release_day);
         });
         let n;
-        await eos.getActions({"account_name": "zjubcatest11", "pos": -1, "offset": -50}).then(async result => {
+        await eos.getActions({"account_name": "zjubcatokens", "pos": -1, "offset": -50}).then(async result => {
           n = result.actions.length;
           let count = 0;
           for (var i = 0; i < n; i++) {
             if (result.actions[n - i - 1].action_trace.act.name === "transfer" &&
-              result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatest11") {
+              result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatokens") {
               this.actions[count] = {
                 "time": result.actions[n - i - 1].block_time,
                 "from": result.actions[n - i - 1].action_trace.act.data.from,
@@ -264,11 +227,11 @@
       },
 
       toall() {
-        //this.$store.state.pageaccount='zjubcatest11'
+        //this.$store.state.pageaccount='zjubcatokens'
         this.$router.push({
           name: 'pages',
           query: {
-            account: 'zjubcatest11',
+            account: 'zjubcatokens',
           }
         });
       },

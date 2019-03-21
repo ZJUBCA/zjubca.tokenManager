@@ -118,8 +118,8 @@
     methods: {
       async getAccountInfo() {
         await eos.getTableRows({
-          code: "zjubcatest12",
-          scope: "zjubcatest12",
+          code: "zjubcamember",
+          scope: "zjubcamember",
           table: "members",
           json: "true"
         }).then(res => {
@@ -134,7 +134,7 @@
             }
           }
         })
-        eos.getCurrencyBalance({code: 'zjubcatest11', account: this.name, symbol: 'AAA'}).then(result => {
+        eos.getCurrencyBalance({code: 'zjubcatokens', account: this.name, symbol: 'ZJUBCA'}).then(result => {
           this.leftnum = result[0]
         });
         let n;
@@ -143,7 +143,7 @@
           let count = 0;
           for (var i = 0; i < n; i++) {
             if (result.actions[n - i - 1].action_trace.act.name === "transfer" &&
-              result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatest11") {
+              result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatokens") {
 
 
               this.actions[count] = {
