@@ -75,12 +75,12 @@
                     <div class="md-title" >最近交易</div>
                   </md-card-header-text>
                   <md-menu md-size="big" md-direction="bottom-end">
-                      <md-button @click="toall()">所有交易</md-button>
+                      <md-button class="md-raised md-primary"  @click="toall()">所有交易</md-button>
                   </md-menu>
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive" style="margin-top:0vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:32vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1" style="margin-left:37vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;" >
     <thead>
       <tr>
@@ -202,19 +202,19 @@ import {eos} from '../main';
                 this.ok=!this.ok;
           },
       onSelect (item) {
-        this.$store.state.item=item;
+        //this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                          //  params: { 
-                          //       item: item
-                          //   }
+                           query: { 
+                                item: item
+                            }
                             });
       },
         toall(){
-          this.$store.state.pageaccount='zjubcatest11'
+          //this.$store.state.pageaccount='zjubcatest11'
           this.$router.push({name:'pages',
-          // params: { 
-          //       account: 'zjubcatest11', 
-          //                   }
+          query: { 
+                account: 'zjubcatest11', 
+                            }
                             });
         },
         },

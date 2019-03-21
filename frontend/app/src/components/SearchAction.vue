@@ -56,12 +56,9 @@ import {eos} from '../main';
         computed:{
            triger:function(){this.getParams();return this.item.from},
         },
-        watch:{
-          '$route':'getParams'
-        },
         methods: {
           getParams(){
-            this.item=this.$store.state.item;
+            this.item=this.$route.query.item;
           },
         // onSelect (item) {
         //     this.$router.push({name:'SearchAction',

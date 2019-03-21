@@ -10,7 +10,7 @@
                     <div class="md-title" >我的账户</div>
                   </md-card-header-text>
                   <md-menu md-size="big" md-direction="bottom-end">
-                      <md-button @click="renew">renew</md-button>
+                      <md-button class="md-raised md-primary" @click="renew">续期</md-button>
                   </md-menu>
         </md-card-header>
 
@@ -58,12 +58,12 @@
                     <div class="md-title" >最近交易</div>
                   </md-card-header-text>
                   <md-menu md-size="big" md-direction="bottom-end">
-                      <md-button @click="toall()">所有交易</md-button>
+                      <md-button class="md-raised md-primary" @click="toall()">所有交易</md-button>
                   </md-menu>
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:32vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1" style="margin-left:37vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
@@ -90,7 +90,10 @@
 </div>
   </md-card-content>
   </md-card>
-
+       <md-dialog-alert
+      :md-active.sync="success"
+      md-content="续期失败!" 
+       md-confirm-text="OK!"/>
     </div>
 </div>
 </template>
@@ -128,6 +131,7 @@ export default {
             studentname:"",
             registration_date:"",
             expiration_date:"",
+            success:false,
         }
     },
     computed:{
@@ -189,19 +193,19 @@ export default {
                 this.ok=!this.ok;
         },
       onSelect (item) {
-        this.$store.state.item=item;
+        //this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                          //  params: { 
-                          //       item: item
-                          //   }
+                           query: { 
+                                item: item
+                            }
                             });
       },
         toall(){
-          this.$store.state.pageaccount=this.name;
+          //this.$store.state.pageaccount=this.name;
           this.$router.push({name:'pages',
-          // params: { 
-          //       account: this.name, 
-          //                   }
+          query: { 
+                account: this.name, 
+                            }
                             });
         },
         async renew(){
@@ -232,7 +236,7 @@ export default {
                               }]
                           }).catch(error => {
                               console.log(error);
-                              alert("更新失败")
+                              this.success=true;
                           });
     }
     }

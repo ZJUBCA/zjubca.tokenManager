@@ -47,12 +47,12 @@
                     <div class="md-title" >最近交易</div>
                   </md-card-header-text>
                   <md-menu md-size="big" md-direction="bottom-end">
-                      <md-button @click="toall()">所有交易</md-button>
+                      <md-button class="md-raised md-primary"  @click="toall()">所有交易</md-button>
                   </md-menu>
         </md-card-header>
       <md-card-content>
                 <div class="table-responsive">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:32vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1" style="margin-left:37vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
@@ -105,9 +105,11 @@ export default {
         }
     },
     computed:{
-        left:function(){this.name=this.$store.state.searchaccount;
-        //  this.name=this.$route.params.Account;
-        this.getAccountInfo();return this.leftnum},
+        left:function(){
+        //this.name=this.$store.state.searchaccount;
+        this.name=this.$route.query.Account;
+        this.getAccountInfo();
+        return this.leftnum},
     },
     methods:{
       async  getAccountInfo() {
@@ -152,16 +154,16 @@ export default {
                 this.ok=!this.ok;
         },
       onSelect (item) {
-        this.$store.state.item=item;
+        //this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                          //  params: { 
-                          //       item: item
-                          //   }
+                           query: { 
+                                item: item
+                            }
                             });
       },
         toall(){
           this.$router.push({name:'pages',
-          params: { 
+          query: { 
                 account: this.name, 
                             }});
         }

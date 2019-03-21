@@ -8,7 +8,7 @@
                   </md-card-header-text>
 
                   <md-menu md-size="big" md-direction="bottom-end">
-                      <md-button><router-link to="/regis">{{message}}</router-link></md-button>
+                      <md-button class="md-raised md-primary" @click="regis()">注册</md-button>
                   </md-menu>
         </md-card-header>
         <md-card-content>
@@ -96,17 +96,25 @@ import {eos} from '../main'
           this.ok=!this.ok;
       },
       onSelect (item) {
-        this.$store.state.searchaccount=item.eosid;
+        //this.$store.state.searchaccount=item.eosid;
         this.$router.push({name:'SearchAccount',
-                          //  params: { 
-                          //       Account: item.eosid
-                          //   }
+                           query: { 
+                                Account: item.eosid
+                            }
                             });
       },
+      regis(){
+        this.$router.push({
+          name:'regis',
+        });
+      }
     },
-    computed:{
-        message:function(){this.getMembers();return "注册"}
-    }
+    created(){
+      this.getMembers();
+    },
+    // computed:{
+    //     message:function(){this.getMembers();return "注册"}
+    // }
   }
 </script>
 

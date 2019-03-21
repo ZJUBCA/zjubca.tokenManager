@@ -8,7 +8,7 @@
               <md-icon >keyboard_arrow_left</md-icon>
             </md-button>
             <span  v-show="!isShow">&nbsp&nbsp&nbsp</span>
-            <span>{{Account}}</span>
+            <span @click="login()">{{Account}}</span>
         </div>
                   <div class="md-toolbar-section-end">
             <md-button class="md-icon-button"  @click="menuVisible = !menuVisible">
@@ -44,7 +44,10 @@
           <router-view ></router-view>
         </md-app-content>
     </md-app>
-
+       <md-dialog-alert
+      :md-active.sync="first"
+      md-content="Please unlock your scatter!" 
+       md-confirm-text="OK!"/>
   </div>
 </template>
 
@@ -93,7 +96,8 @@ export default {
     return{
       Account:null,
       menuVisible: false,
-      isShow:false
+      isShow:false,
+      first:false
     }
   },
   created(){
@@ -109,6 +113,15 @@ export default {
     }
 },
   methods:{
+    login(){
+      if(this.$store.state.login==false){
+        this.first=true;
+        this.initialize();
+      }
+      else{
+        return;
+      }
+    },
     goback(){
       router.go(-1);
     },
@@ -122,7 +135,8 @@ export default {
           initTimeout: 10000,
         }).then(async connected => {
           if (!connected) {
-            alert('please unlock your scatter');
+            //alert('please unlock your scatter');
+            this.first=true;
             this.Account="登陆";
             return false
           }

@@ -9,7 +9,7 @@
 
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" style="margin-left:32vw"></md-progress-spinner>
+            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1" style="margin-left:37vw"></md-progress-spinner>
   <table v-else class="table" style="table-layout: fixed;">
     <thead>
       <tr>
@@ -37,11 +37,19 @@
 
         <md-card-actions>
             <span>{{this.message}}</span><span>第{{this.currentpage}} 页</span>
-          <md-button @click="prepage()"><span class="glyphicon glyphicon-minus"></span></md-button>
-          <md-button @click="nextpage()"><span class="glyphicon glyphicon-plus"></span></md-button>
+          <md-button @click="prepage()"><md-icon >keyboard_arrow_left</md-icon></md-button>
+          <md-button @click="nextpage()"><md-icon >keyboard_arrow_right</md-icon></md-button>
         </md-card-actions>
       </md-ripple>
     </md-card>
+    <md-dialog-alert
+      :md-active.sync="first"
+      md-content="这是第一页了!" 
+       md-confirm-text="OK!"/>
+    <md-dialog-alert
+      :md-active.sync="last"
+      md-content="这是最后一页了!" 
+       md-confirm-text="OK!"/>
 </div>
 </template>
 <style>
@@ -50,6 +58,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
 </style>
 
 <script>
@@ -68,16 +77,19 @@ export default {
             allpage:0,
             account:'',
             actionindex:[],
+            first:false,
+            last:false,
         }
     },
     computed:{
-        message:function(){this.actionindex[0]=-1;this.account=this.$store.state.pageaccount;this.getPage();return "Actions";},
+        message:function(){this.actionindex[0]=-1;this.account=this.$route.query.account;this.getPage();return "Actions";},
     },
     methods:{
         async getPage(){
             let n;
             if(this.currentpage!=1&&this.actionindex[this.currentpage-1]<0){
-                    alert("这是最后一页了！");
+                    //alert("这是最后一页了！");
+                    this.last=true;
                     this.currentpage=this.currentpage-1;
                     this.getPage();
                     return;
@@ -88,7 +100,8 @@ export default {
                     this.actionindex[0]=result.actions[n-1].account_action_seq;
                 }
                 if(n==0){
-                    alert("这是最后一页了！");
+                    //alert("这是最后一页了！");
+                    this.last=true;
                     this.currentpage=this.currentpage-1;
                     this.getPage();
                     return;
@@ -133,13 +146,16 @@ export default {
                 this.ok=0;
                 this.getPage();
             }
+            else{
+              this.first=true;
+            }
         },
       onSelect (item) {
-        this.$store.state.item=item;
+        //this.$store.state.item=item;
         this.$router.push({name:'SearchAction',
-                          //  params: { 
-                          //       item: item
-                          //   }
+                           query: { 
+                                item: item
+                            }
                             });
       },
     }

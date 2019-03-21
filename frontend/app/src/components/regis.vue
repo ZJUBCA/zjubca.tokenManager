@@ -30,7 +30,12 @@
       </div>
 
     </md-content>
+
     <div class="background"/>
+               <md-dialog-alert
+      :md-active.sync="first"
+      md-content="注册失败!" 
+       md-confirm-text="OK!"/>
   </div>
 </template>
 
@@ -42,6 +47,7 @@
     data() {
       return {
         loading: false,
+        first:false,
         studentInfo: {
           studentId: "",
           EosId: "",
@@ -82,9 +88,9 @@
                                       memo: "enroll$"+this.studentInfo.FullName+"$"+this.studentInfo.studentId,
                                   }
                               }]
-                          }).catch(error => {
+                          }).catch(error => {  
+                              this.first=true;
                               console.log(error);
-                              alert("注册失败")
                           });
       }
     }
