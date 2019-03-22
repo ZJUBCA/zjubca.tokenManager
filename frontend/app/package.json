@@ -19,13 +19,13 @@
     "vue-material": "^1.0.0-beta-10.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.0",
-    "zjubca-scatterjs-core": "^1.0.4",
-    "zjubca-scatterjs-plugin-eosjs": "^1.0.2"
+    "zjubca-scatterjs-core": "^1.0.5",
+    "zjubca-scatterjs-plugin-eosjs": "^1.0.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
-    "@vue/cli-service": "^3.2.0",
+    "@vue/cli-service": "^3.5.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",

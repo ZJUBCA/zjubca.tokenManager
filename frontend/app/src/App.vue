@@ -110,8 +110,8 @@
         first: false
       }
     },
-    created() {
-      this.initialize();
+    async created() {
+      await this.initialize();
     },
     watch: {
       $route(now, old) {     //监控路由变换，控制返回按钮的显示
@@ -123,10 +123,10 @@
       }
     },
     methods: {
-      login() {
+      async login() {
         if (this.$store.state.login == false) {
           this.first = true;
-          this.initialize();
+          await this.initialize();
         } else {
           return;
         }

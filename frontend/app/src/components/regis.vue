@@ -32,10 +32,17 @@
     </md-content>
 
     <div class="background"/>
-    <md-dialog-alert
+          <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="first" 
+      md-persistent>
+      <span>注册失败!</span>
+      <md-button class="md-primary" @click="first = false">ok</md-button>
+    </md-snackbar>
+    <!-- <md-dialog-alert
         :md-active.sync="first"
         md-content="注册失败!"
-        md-confirm-text="OK!"/>
+        md-confirm-text="OK!"/> -->
   </div>
 </template>
 
@@ -49,6 +56,7 @@
       return {
         loading: false,
         first: false,
+        position:'center',
         studentInfo: {
           studentId: "",
           EosId: "",
@@ -72,6 +80,7 @@
           port: 443,
           chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
         };
+        console.log(this.$store.state.scatter);
         const scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
         var res = await scattereos.transaction({
           actions: [

@@ -47,14 +47,28 @@
         </md-card-actions>
       </md-ripple>
     </md-card>
-    <md-dialog-alert
+          <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="first" 
+      md-persistent>
+      <span>这是第一页了!</span>
+      <md-button class="md-primary" @click="first = false">ok</md-button>
+    </md-snackbar>
+          <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="last" 
+      md-persistent>
+      <span>这是最后一页了!</span>
+      <md-button class="md-primary" @click="last = false">ok</md-button>
+    </md-snackbar>
+    <!-- <md-dialog-alert
         :md-active.sync="first"
         md-content="这是第一页了!"
         md-confirm-text="OK!"/>
     <md-dialog-alert
         :md-active.sync="last"
         md-content="这是最后一页了!"
-        md-confirm-text="OK!"/>
+        md-confirm-text="OK!"/> -->
   </div>
 </template>
 <style>
@@ -85,6 +99,7 @@
         actionindex: [],
         first: false,
         last: false,
+        position:'center',
       }
     },
     computed: {

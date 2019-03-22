@@ -91,19 +91,29 @@
           </div>
         </md-card-content>
       </md-card>
-      <md-dialog-alert
-          :md-active.sync="success"
-          md-content="续期失败!"
-          md-confirm-text="OK!"/>
-
-      <md-dialog-confirm
+      <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="success" 
+      md-persistent>
+      <span>续期失败!</span>
+      <md-button class="md-primary" @click="success = false">ok</md-button>
+    </md-snackbar>
+    <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="third" 
+      md-persistent>
+      <span>请先注册!</span>
+      <md-button class="md-primary" @click="onCancel">以后再说</md-button>
+      <md-button class="md-primary" @click="onConfirm">前往注册</md-button>
+    </md-snackbar>
+      <!-- <md-dialog-confirm
           :md-active.sync="third"
           md-content="请先注册!"
           md-cancel-text="以后再说"
           md-confirm-text="前往注册"
           @md-cancel="onCancel"
           @md-confirm="onConfirm"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -145,6 +155,7 @@
         success: false,
         second: false,
         third: false,
+        position:'center',
       }
     },
     computed: {
