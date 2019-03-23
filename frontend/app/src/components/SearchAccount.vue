@@ -4,28 +4,28 @@
       <md-card md-with-hover class="md-alignment-space-between">
         <md-ripple>
           <md-card-header>
-            <div class="md-title">Account Information</div>
+            <div class="md-title">账户信息</div>
           </md-card-header>
 
           <md-card-content>
             <md-table style="table-layout: fixed;overflow: hidden;">
               <md-table-row>
-                <md-table-cell>Account Name</md-table-cell>
+                <md-table-cell>账户名</md-table-cell>
                 <md-table-cell>{{name}}</md-table-cell>
               </md-table-row>
 
               <md-table-row>
-                <md-table-cell>StudentId</md-table-cell>
+                <md-table-cell>学号</md-table-cell>
                 <md-table-cell>{{StudentId}}</md-table-cell>
               </md-table-row>
 
               <md-table-row>
-                <md-table-cell>studentname</md-table-cell>
+                <md-table-cell>姓名</md-table-cell>
                 <md-table-cell>{{studentname}}</md-table-cell>
               </md-table-row>
 
               <md-table-row>
-                <md-table-cell>registration_date</md-table-cell>
+                <md-table-cell>注册时间</md-table-cell>
                 <md-table-cell>{{registration_date}}</md-table-cell>
               </md-table-row>
 
@@ -57,12 +57,12 @@
             <table v-else class="table" style="table-layout: fixed;">
               <thead>
               <tr>
-                <th>from</th>
-                <th>to</th>
-                <th>quantity</th>
-                <th class="hidden-xs">memo</th>
+                <th>转帐方</th>
+                <th>收款方</th>
+                <th>数量</th>
+                <th class="hidden-xs">备忘</th>
                 <th class="hidden-xs">区块高度</th>
-                <th class="hidden-xs">time</th>
+                <th class="hidden-xs">时间</th>
               </tr>
               </thead>
               <tbody>

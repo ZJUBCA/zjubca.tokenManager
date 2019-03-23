@@ -5,6 +5,7 @@
 
       <div class="title">
         <div class="md-title">ZJUBCA</div>
+        
         <div class="md-body-1">注册</div>
       </div>
 
@@ -37,7 +38,14 @@
       :md-active.sync="first" 
       md-persistent>
       <span>注册失败!</span>
-      <md-button class="md-primary" @click="first = false">ok</md-button>
+      <md-button class="md-primary" @click="first = false;loading=false">ok</md-button>
+    </md-snackbar>
+    <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="second" 
+      md-persistent>
+      <span>注册成功!</span>
+      <md-button class="md-primary" @click="jump">ok</md-button>
     </md-snackbar>
     <!-- <md-dialog-alert
         :md-active.sync="first"
@@ -57,6 +65,7 @@
         loading: false,
         first: false,
         position:'center',
+        second:false,
         studentInfo: {
           studentId: "",
           EosId: "",
@@ -69,10 +78,16 @@
         this.loading = true;
         setTimeout(() => {
           this.loading = false;
-        }, 5000);
+        }, 3000);
+      },
+      jump(){
+        this.second=true;
+        this.$router.push({
+          name: 'member',
+        });
       },
       async regis() {
-
+        this.loading=true;
         const network = {
           blockchain: 'eos',
           protocol: 'https',
@@ -99,6 +114,9 @@
                 memo: "enroll$" + this.studentInfo.FullName + "$" + this.studentInfo.studentId,
               }
             }]
+        }).then(ress=>{
+          this.loading = false;
+          this.second=true;
         }).catch(error => {
           this.first = true;
           console.log(error);

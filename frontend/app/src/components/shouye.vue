@@ -28,7 +28,7 @@
                   <md-table-cell>{{frozen_amount}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
-                  <md-table-cell>Issuer</md-table-cell>
+                  <md-table-cell>发行者</md-table-cell>
                   <md-table-cell>{{issuer}}</md-table-cell>
                 </md-table-row>
               </md-table>
@@ -93,9 +93,9 @@
                 <th>from</th>
                 <th>to</th>
                 <th>quantity</th>
-                <th class="hidden-xs">memo</th>
+                <th class="hidden-xs">备忘</th>
                 <th class="hidden-xs">区块高度</th>
-                <th class="hidden-xs">time</th>
+                <th class="hidden-xs">时间</th>
               </tr>
               </thead>
               <tbody>
@@ -189,7 +189,9 @@
           this.next_release_day = getLocalTime(result.rows[0].next_release_day);
         });
         let n;
+        await eos.getControlledAccounts("zjubcatokens").then(res=>{console.log(res)});
         await eos.getActions({"account_name": "zjubcatokens", "pos": -1, "offset": -50}).then(async result => {
+          console.log(result);
           n = result.actions.length;
           let count = 0;
           for (var i = 0; i < n; i++) {
