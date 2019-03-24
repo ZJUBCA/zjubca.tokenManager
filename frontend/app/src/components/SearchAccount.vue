@@ -1,5 +1,6 @@
 <template>
   <div>
+    <md-progress-bar v-show="loading" md-mode="indeterminate"></md-progress-bar>
     <div>
       <md-card md-with-hover class="md-alignment-space-between">
         <md-ripple>
@@ -104,6 +105,7 @@
         transactions: [],
         studentname: "",
         registration_date: "",
+        loading:false,
       }
     },
     computed: {
@@ -117,6 +119,7 @@
 
     methods: {
       async getAccountInfo() {
+        this.loading=true;
         await eos.getTableRows({
           code: "zjubcamember",
           scope: "zjubcamember",
@@ -164,6 +167,7 @@
           }
         });
         this.ok = !this.ok;
+        this.loading=false;
       },
       onSelect(item) {
         //this.$store.state.item=item;

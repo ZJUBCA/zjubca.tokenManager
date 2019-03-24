@@ -1,5 +1,6 @@
 <template>
   <div>
+     <md-progress-bar v-show="loadingrenew" md-mode="indeterminate"></md-progress-bar>
     <div>
     </div>
     <div>
@@ -10,7 +11,9 @@
               <div class="md-title">我的账户</div>
             </md-card-header-text>
             <md-menu md-size="big" md-direction="bottom-end">
-              <md-button class="md-raised md-primary" @click="renew">续期</md-button>
+              <md-button class="md-raised md-primary" @click="renew">
+                <span>续期</span>
+              </md-button>
             </md-menu>
           </md-card-header>
 
@@ -114,6 +117,13 @@
           @md-cancel="onCancel"
           @md-confirm="onConfirm"
       />
+      <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="fourth" 
+      md-persistent>
+      <span>续期成功!</span>
+      <md-button class="md-primary" @click="fourth = false">ok</md-button>
+    </md-snackbar>
     </div>
   </div>
 </template>
@@ -156,6 +166,8 @@
         second: false,
         third: false,
         position:'center',
+        loadingrenew:false,
+        fourth:false,
       }
     },
     computed: {
@@ -179,6 +191,7 @@
         this.getAccountInfo();
       },
       async getAccountInfo() {
+        this.loadingrenew=true;
         //studentid
         await eos.getTableRows({
           code: "zjubcamember",
@@ -237,6 +250,7 @@
           }
         });
         this.ok = !this.ok;
+        this.loadingrenew=false;
       },
       onSelect(item) {
         //this.$store.state.item=item;
@@ -258,6 +272,7 @@
         });
       },
       async renew() {
+        this.loadingrenew=true;
         const network = {
           blockchain: 'eos',
           protocol: 'https',
@@ -283,9 +298,15 @@
                 memo: "renew$" + "my" + "$" + "account",
               }
             }]
-        }).catch(error => {
+        }).then(
+          load=>{
+            this.loadingrenew=false;
+            this.fourth=true;
+          }
+        ).catch(error => {
           console.log(error);
           this.success = true;
+          this.loadingrenew=false;
         });
       }
 

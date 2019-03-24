@@ -1,6 +1,6 @@
 <template>
   <div class="shouye">
-
+    <md-progress-bar  v-show="available" md-mode="indeterminate"></md-progress-bar>
     <div id="content1" md-layout md-gutter>
       <div class="md-layout-item md-layout md-gutter">
         <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100" style="margin-top:0vw">
@@ -167,6 +167,7 @@
         release_amount_pertime: '',
         released_times: '',
         transactions: [],
+        available:false,
       }
     },
     computed: {
@@ -178,6 +179,7 @@
 
     methods: {
       async getTotalNum() {
+        this.available=true;
         eos.getTableRows({code: "zjubcatokens", scope: "ZJUBCA", table: "stat", json: "true"}).then(async result => {
 
           this.max_supply = result.rows[0].max_supply;
@@ -189,9 +191,7 @@
           this.next_release_day = getLocalTime(result.rows[0].next_release_day);
         });
         let n;
-        await eos.getControlledAccounts("zjubcatokens").then(res=>{console.log(res)});
         await eos.getActions({"account_name": "zjubcatokens", "pos": -1, "offset": -50}).then(async result => {
-          console.log(result);
           n = result.actions.length;
           let count = 0;
           for (var i = 0; i < n; i++) {
@@ -216,6 +216,7 @@
 
         });
         this.ok = !this.ok;
+        this.available=false;
       },
       onSelect(item) {
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <md-progress-bar v-show="loading" md-mode="indeterminate"></md-progress-bar>
     <md-card md-with-hover>
       <md-ripple>
         <md-card-header>
@@ -66,6 +67,7 @@
       searched: [],
       users: [],
       ok: 0,
+      loading:false,
     }),
     methods: {
       newUser() {
@@ -78,6 +80,7 @@
       },
 
       async getMembers() {
+        this.loading=true;
         await eos.getTableRows({
           code: "zjubcamember",
           scope: "zjubcamember",
@@ -104,6 +107,7 @@
 
         });
         this.ok = !this.ok;
+        this.loading=false;
       },
       onSelect(item) {
         //this.$store.state.searchaccount=item.eosid;
