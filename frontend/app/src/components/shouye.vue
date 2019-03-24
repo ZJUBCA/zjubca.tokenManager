@@ -17,7 +17,7 @@
 
                 <md-table-row>
                   <md-table-cell>总量</md-table-cell>
-                  <md-table-cell>{{max}}</md-table-cell>
+                  <md-table-cell>{{max_supply}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
                   <md-table-cell>释放</md-table-cell>
@@ -85,9 +85,9 @@
         </md-card-header>
         <md-card-content>
           <div class="table-responsive" style="margin-top:0vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
+            <md-progress-spinner v-show="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
                                  style="margin-left:37vw"></md-progress-spinner>
-            <table v-else class="table" style="table-layout: fixed;">
+            <table v-show="!ok" class="table" style="table-layout: fixed;">
               <thead>
               <tr>
                 <th>from</th>
@@ -158,7 +158,7 @@
       return {
         actions: [],
         actionss: [],
-        ok: 0,
+        ok: true,
         max_supply: '',
         supply: '',
         frozen_amount: '',
@@ -170,16 +170,22 @@
         available:false,
       }
     },
-    computed: {
-      max: function () {
-        this.getTotalNum();
-        return this.max_supply
-      },
+    // computed: {
+    //   max: function () {
+    //     this.available=true;
+    //     setTimeout(() => {
+    //       this.available = false;
+    //     }, 1000);
+    //     this.getTotalNum();
+    //     return this.max_supply
+    //   },
+    // },
+    created(){
+      this.available=true;
+      this.getTotalNum();
     },
-
     methods: {
       async getTotalNum() {
-        this.available=true;
         eos.getTableRows({code: "zjubcatokens", scope: "ZJUBCA", table: "stat", json: "true"}).then(async result => {
 
           this.max_supply = result.rows[0].max_supply;
@@ -214,8 +220,11 @@
 
           }
 
+        }).catch(error=>{
+          this.available=false;
+          this.ok=false;
         });
-        this.ok = !this.ok;
+        this.ok=false;
         this.available=false;
       },
       onSelect(item) {

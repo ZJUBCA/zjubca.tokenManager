@@ -124,6 +124,13 @@
       <span>续期成功!</span>
       <md-button class="md-primary" @click="fourth = false">ok</md-button>
     </md-snackbar>
+        <md-snackbar :md-position="position"
+      :md-duration=8000
+      :md-active.sync="alertload" 
+      md-persistent>
+      <span>{{alertmessage}}</span>
+      <md-button class="md-primary" @click="this.alertload=false">ok</md-button>
+    </md-snackbar>    
     </div>
   </div>
 </template>
@@ -168,6 +175,8 @@
         position:'center',
         loadingrenew:false,
         fourth:false,
+        alertmessage:'',
+        alertload:false,
       }
     },
     computed: {
@@ -271,8 +280,12 @@
           }
         });
       },
+      alert(mess){
+        this.alertmessage=mess;
+        this.alertload=true;
+        return;
+      },
       async renew() {
-        this.loadingrenew=true;
         const network = {
           blockchain: 'eos',
           protocol: 'https',
@@ -281,33 +294,88 @@
           chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
         };
         const scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
-        var res = await scattereos.transaction({
-          actions: [
+        try {
+          const res = await scattereos.transaction(
             {
-              account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
-              name: "transfer",
-              authorization: [{
-                actor: this.$store.state.account.name,
-                permission: this.$store.state.account.authority
+                actions: [
+                  {
+                    account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                    name: "transfer",
+                    authorization: [{
+                      actor: this.$store.state.account.name,
+                      permission: this.$store.state.account.authority
+                    }
+                    ],
+                    data: {
+                      from: this.$store.state.account.name,
+                      to: 'zjubcamember',
+                      quantity: "10000.0000 ZJUBCA",
+                      memo: "renew$" + "my" + "$" + "account",
+                    }
+                  }]         
+            }
+          );
+          this.loadingrenew=true;
+          // console.log(res);
+          let result = null;
+          this.loading = true;
+          let intv = setInterval(async () => {
+            try {
+              result = await scattereos.getTransaction(res.transaction_id)
+              if (result.block_num > 0) {
+                clearInterval(intv);
+                this.loadingrenew = false;
+                this.fourth=true;
               }
-              ],
-              data: {
-                from: this.$store.state.account.name,
-                to: 'zjubcamember',
-                quantity: "10000.0000 ZJUBCA",
-                memo: "renew$" + "my" + "$" + "account",
-              }
-            }]
-        }).then(
-          load=>{
-            this.loadingrenew=false;
-            this.fourth=true;
+            } catch (e) {
+              console.log(e);
+              this.alertload=false;
+            }
+          }, 1000);
+        } catch (e) {
+          let error = e;
+          try {
+            error = JSON.parse(e);
+          } catch (ee) {
+            // do nothing
           }
-        ).catch(error => {
-          console.log(error);
-          this.success = true;
-          this.loadingrenew=false;
-        });
+          if (error.message === 'nologin') {
+            this.alert("请先登录")
+          } else if (error.code !== 402) {
+            if (error.error) {
+              this.alert(error.error.details[0].message);
+            } else {
+              this.alert(error.message)
+            }
+          }
+        }
+        // var res = await scattereos.transaction({
+        //   actions: [
+        //     {
+        //       account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+        //       name: "transfer",
+        //       authorization: [{
+        //         actor: this.$store.state.account.name,
+        //         permission: this.$store.state.account.authority
+        //       }
+        //       ],
+        //       data: {
+        //         from: this.$store.state.account.name,
+        //         to: 'zjubcamember',
+        //         quantity: "1.0000 ZJUBCA",
+        //         memo: "renew$" + "my" + "$" + "account",
+        //       }
+        //     }]
+        // }).then(
+        //   load=>{
+        //     this.loadingrenew=false;
+        //     this.fourth=true;
+        //   }
+        // ).catch(error => {
+        //   console.log(error);
+        //   this.success = true;
+        //   this.loadingrenew=false;
+        // });
       }
 
     }
