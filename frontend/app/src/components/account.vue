@@ -18,7 +18,7 @@
           </md-card-header>
 
           <md-card-content>
-            <md-table style="width:80vw;overflow: hidden;">
+            <md-table style="width:81vw;overflow: hidden;">
 
               <md-table-row >
                 <md-table-cell>账户</md-table-cell>

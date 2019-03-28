@@ -13,7 +13,7 @@
             </md-card-header>
 
             <md-card-content>
-              <md-table style="width:80vw;overflow: hidden;">
+              <md-table style="width:81vw;overflow: hidden;">
 
                 <md-table-row>
                   <md-table-cell>总量</md-table-cell>
@@ -55,7 +55,7 @@
 
 
             <md-card-content>
-              <md-table style="width:80vw;overflow: hidden;">
+              <md-table style="width:81vw;overflow: hidden;">
                 <md-table-row>
                   <md-table-cell>时间</md-table-cell>
                   <md-table-cell>{{next_release_day}}</md-table-cell>
