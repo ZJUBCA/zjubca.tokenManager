@@ -13,7 +13,7 @@
             </md-card-header>
 
             <md-card-content>
-              <md-table style="width:81vw;overflow: hidden;">
+              <md-table style="width:100%;overflow: hidden;">
 
                 <md-table-row>
                   <md-table-cell>总量</md-table-cell>
@@ -28,7 +28,7 @@
                   <md-table-cell>{{frozen_amount}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
-                  <md-table-cell>发行者</md-table-cell>
+                  <md-table-cell>发行</md-table-cell>
                   <md-table-cell>{{issuer}}</md-table-cell>
                 </md-table-row>
               </md-table>
@@ -55,7 +55,7 @@
 
 
             <md-card-content>
-              <md-table style="width:81vw;overflow: hidden;">
+              <md-table style="width:100%;overflow: hidden;">
                 <md-table-row>
                   <md-table-cell>时间</md-table-cell>
                   <md-table-cell>{{next_release_day}}</md-table-cell>
@@ -65,8 +65,8 @@
                   <md-table-cell>{{release_amount_pertime}}</md-table-cell>
                 </md-table-row>
                 <md-table-row>
-                  <md-table-cell>释放次数</md-table-cell>
-                  <md-table-cell>{{released_times}}</md-table-cell>
+                  <md-table-cell>释放</md-table-cell>
+                  <md-table-cell>{{released_times}}次</md-table-cell>
                 </md-table-row>
               </md-table>
             </md-card-content>
