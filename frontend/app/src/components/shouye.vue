@@ -13,7 +13,7 @@
             </md-card-header>
 
             <md-card-content>
-              <md-table>
+              <md-table style="width:80vw;overflow: hidden;">
 
                 <md-table-row>
                   <md-table-cell>总量</md-table-cell>
@@ -55,7 +55,7 @@
 
 
             <md-card-content>
-              <md-table>
+              <md-table style="width:80vw;overflow: hidden;">
                 <md-table-row>
                   <md-table-cell>时间</md-table-cell>
                   <md-table-cell>{{next_release_day}}</md-table-cell>
@@ -90,9 +90,9 @@
             <table v-show="!ok" class="table" style="table-layout: fixed;">
               <thead>
               <tr>
-                <th>from</th>
-                <th>to</th>
-                <th>quantity</th>
+                <th>转帐方</th>
+                <th>收款方</th>
+                <th>数量</th>
                 <th class="hidden-xs">备忘</th>
                 <th class="hidden-xs">区块高度</th>
                 <th class="hidden-xs">时间</th>

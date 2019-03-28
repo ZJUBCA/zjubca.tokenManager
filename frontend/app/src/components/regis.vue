@@ -64,7 +64,6 @@
 <script>
   import {student} from '../main'
   import Eos from 'eosjs'
-
   export default {
     name: "App",
     data() {

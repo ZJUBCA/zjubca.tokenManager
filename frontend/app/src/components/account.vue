@@ -18,10 +18,10 @@
           </md-card-header>
 
           <md-card-content>
-            <md-table>
+            <md-table style="width:80vw;overflow: hidden;">
 
-              <md-table-row>
-                <md-table-cell>账户名</md-table-cell>
+              <md-table-row >
+                <md-table-cell>账户</md-table-cell>
                 <md-table-cell>{{name}}</md-table-cell>
               </md-table-row>
 
@@ -36,11 +36,11 @@
               </md-table-row>
 
               <md-table-row>
-                <md-table-cell>注册时间</md-table-cell>
+                <md-table-cell>注册</md-table-cell>
                 <md-table-cell>{{registration_date}}</md-table-cell>
               </md-table-row>
               <md-table-row>
-                <md-table-cell>注册到期时间</md-table-cell>
+                <md-table-cell>到期</md-table-cell>
                 <md-table-cell>{{expiration_date}}</md-table-cell>
               </md-table-row>
               <md-table-row>
