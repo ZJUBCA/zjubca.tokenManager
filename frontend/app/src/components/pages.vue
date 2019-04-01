@@ -1,6 +1,6 @@
 <template>
   <div>
-
+<md-progress-bar  v-show="ok" md-mode="indeterminate"></md-progress-bar>
     <md-card md-with-hover>
       <md-ripple>
         <md-card-header>
@@ -9,9 +9,7 @@
 
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
-                                 style="margin-left:37vw"></md-progress-spinner>
-            <table v-else class="table" style="table-layout: fixed;">
+            <table  class="table" style="table-layout: fixed;">
               <thead>
               <tr>
                 <th>转账方</th>
@@ -177,6 +175,7 @@
           this.actionindex[this.currentpage] = this.actionindex[this.currentpage - 1] - i;
           if(count==0){
             this.currentpage=this.currentpage-1;
+            this.last=true;
             this.getPage();
           }
         }).catch(error=>{

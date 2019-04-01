@@ -1,6 +1,6 @@
 <template>
   <div>
-
+<md-progress-bar  v-show="ok" md-mode="indeterminate"></md-progress-bar>
     <md-card md-with-hover>
       <md-ripple>
         <md-card-header>
@@ -9,8 +9,6 @@
 
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-show="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
-                                 style="margin-left:37vw"></md-progress-spinner>
             <table class="table" style="table-layout: fixed;">
               <thead>
               <tr>
@@ -37,7 +35,7 @@
         </md-card-content>
 
         <md-card-actions>
-          <span>Actions</span><span>第{{this.currentpage}} 页</span>
+          <span>Actions&nbsp&nbsp</span><span>第{{this.currentpage}} 页&nbsp</span>
           <md-button @click="prepage()">
             <md-icon>keyboard_arrow_left</md-icon>
           </md-button>
