@@ -7,6 +7,7 @@ import pages from './components/pages.vue'
 import SearchAccount from './components/SearchAccount.vue'
 import member from './components/member.vue'
 import SearchAction from './components/SearchAction.vue'
+import acountactions from './components/acountactions.vue'
 Vue.use(Router)
 export default new Router({
   base:'/app/',
@@ -45,6 +46,11 @@ export default new Router({
       path: '/SearchAction',
       name: 'SearchAction',
       component: SearchAction
+    },
+    {
+      path: '/acountactions',
+      name: 'acountactions',
+      component: acountactions
     },
   ]
 })

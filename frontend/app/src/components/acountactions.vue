@@ -9,12 +9,12 @@
 
         <md-card-content style="overflow: hidden;">
           <div class="table-responsive" style="margin-top:1vw">
-            <md-progress-spinner v-if="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
+            <md-progress-spinner v-show="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
                                  style="margin-left:37vw"></md-progress-spinner>
-            <table v-else class="table" style="table-layout: fixed;">
+            <table class="table" style="table-layout: fixed;">
               <thead>
               <tr>
-                <th>转账方</th>
+                <th>转帐方</th>
                 <th>收款方</th>
                 <th>数量</th>
                 <th class="hidden-xs">备忘</th>
@@ -121,6 +121,7 @@
         this.getPage();
       },
       async getPage() {
+          this.actions=[];
         let n;
         // if (this.currentpage != 1 && this.actionindex[this.currentpage - 1] < 0) {
         //   //alert("这是最后一页了！");
@@ -130,6 +131,12 @@
         //   return;
         // }
         let off;
+        if(this.actionindex[this.currentpage-1]<20){
+          off=-this.actionindex[this.currentpage-1]+3;
+        }
+        else{
+          off=-20;
+        }
         await eos.getActions({
           "account_name": this.account,
           pos: this.actionindex[this.currentpage - 1],
@@ -150,9 +157,8 @@
           }          
           let count = 0;
           let i = 0;
-          for (var j; j < 10; j++) {
-            actions[j] = {};
-          }
+
+          console.log(n);
           for (i = 0; i < n; i++) {
             if (result.actions[n - i - 1].action_trace.act.name === "transfer" &&
               result.actions[n - i - 1].action_trace.receipt.receiver === "zjubcatokens") {
@@ -174,11 +180,14 @@
             }
 
           }
-          this.actionindex[this.currentpage] = this.actionindex[this.currentpage - 1] - i;
+          console.log(count);
           if(count==0){
-            this.currentpage=this.currentpage-1;
-            this.getPage();
+              this.currentpage=this.currentpage-1;
+              this.last=true;
+              this.getPage();
           }
+          console.log(i);
+          this.actionindex[this.currentpage] = this.actionindex[this.currentpage - 1] - i;
         }).catch(error=>{
           if(this.currentpage!=1){
             this.last=true;
@@ -186,23 +195,23 @@
             this.getPage();            
           }
         });
-        this.ok = !this.ok;
+        this.ok = 0;
       },
-      nextpage() {
-        if (this.actionindex[this.currentpage] <= 0) {
+      async nextpage() {
+        if (this.actionindex[this.currentpage] <= 2) {
           //alert("这是最后一页了！");
           this.last = true;
           return;
         }
-        this.ok = 0;
+        this.ok = 1;
         this.currentpage = this.currentpage + 1;
-        this.getPage();
+        await this.getPage();
       },
-      prepage() {
+      async prepage() {
         if (this.currentpage - 1 >= 1) {
           this.currentpage = this.currentpage - 1;
-          this.ok = 0;
-          this.getPage();
+          this.ok = 1;
+          await this.getPage();
         } else {
           this.first = true;
         }

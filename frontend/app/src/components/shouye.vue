@@ -84,7 +84,7 @@
           </md-menu>
         </md-card-header>
         <md-card-content>
-          <div class="table-responsive" style="margin-top:0vw">
+          <div class="table-responsive" style="margin-top:0vw;margin-bottom:1vw">
             <md-progress-spinner v-show="ok" md-mode="indeterminate" :md-diameter="30" :md-stroke="3" class="md-size-1"
                                  style="margin-left:37vw"></md-progress-spinner>
             <table v-show="!ok" class="table" style="table-layout: fixed;">
@@ -197,7 +197,7 @@
           this.next_release_day = getLocalTime(result.rows[0].next_release_day);
         });
         let n;
-        await eos.getActions({"account_name": "zjubcatokens", "pos": -1, "offset": -50}).then(async result => {
+        await eos.getActions({"account_name": "zjubcatokens", "pos": -1, "offset": -20}).then(async result => {
           n = result.actions.length;
           let count = 0;
           for (var i = 0; i < n; i++) {
@@ -241,7 +241,7 @@
       toall() {
         //this.$store.state.pageaccount='zjubcatokens'
         this.$router.push({
-          name: 'pages',
+          name: 'acountactions',
           query: {
             account: 'zjubcatokens',
           }
