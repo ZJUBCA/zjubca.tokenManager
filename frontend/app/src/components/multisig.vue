@@ -1,5 +1,6 @@
 <template>
     <div>
+        
         <p style="text-align:center;font-size:20px">提案搜索</p>
             <md-speed-dial class="md-bottom-right" md-direction="bottom">
             <md-speed-dial-target @click="addproposal()">
@@ -18,10 +19,7 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a @click="click1()">账户名</a>
-                            </li>
-                            <li>
-                                <a @click="click2()">提案名</a>
+                                <a @click="click1()">{{caidan2}}</a>
                             </li>
                         </ul>
                     </div><!-- /btn-group -->
@@ -32,6 +30,7 @@
 </div>
     </form>
             </div>
+             <md-progress-bar v-show="load" md-mode="indeterminate"></md-progress-bar>
          <div v-show="tt" class="table-responsive" style="margin:4vw;width:90vw">
             <table  class="table" style="table-layout: fixed;">
               <thead>
@@ -63,9 +62,12 @@
 export default {
     data(){
         return{
-            caidan:'查询',
+            caidan:'提案名',
             tt:false,
-            proposals:[{
+            load:false,
+            caidan2:'账户名',
+            proposals:[
+            {
                 proposal_name:"kongtou",
                 proposer:"yangjiani233",
                 from:"zjubcatokens",
@@ -73,7 +75,18 @@ export default {
                 amount:"200.0000 ZJUBCA"
             },
             {
-
+                proposal_name:"reward",
+                proposer:"yangjiani233",
+                from:"zjubcatokens",
+                to:"elsakong1234",
+                amount:"10000.0000 ZJUBCA"
+            },
+            {
+                proposal_name:"regis",
+                proposer:"yangjiani233",
+                from:"zjubcatokens",
+                to:"tkdteokaidik",
+                amount:"10000.0000 ZJUBCA"
             }],
         }
     },
@@ -84,14 +97,20 @@ export default {
             });
         },
         click1(){
-            this.caidan="账户名";
+            let s=this.caidan;
+            this.caidan=this.caidan2;
+            this.caidan2=s;
         },
         click2(){
             this.caidan="提案名";
         },
-        KeyDown(){
+        async KeyDown(){
             console.log("down");
+            this.load=true;
+            await setTimeout(() => {
+            this.load = false;
             this.tt=true;
+            }, 3000);
         },
         onSelect(item) {
         //this.$store.state.item=item;

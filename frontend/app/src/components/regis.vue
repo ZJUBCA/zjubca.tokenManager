@@ -38,7 +38,7 @@
       :md-active.sync="first" 
       md-persistent>
       <span>注册失败!</span>
-      <md-button class="md-primary" @click="first = false;loading=false">ok</md-button>
+      <md-button class="md-primary" @click="fail()">ok</md-button>
     </md-snackbar>
     <md-snackbar :md-position="position"
       :md-duration=4000
@@ -52,7 +52,7 @@
       :md-active.sync="alertload" 
       md-persistent>
       <span>{{alertmessage}}</span>
-      <md-button class="md-primary" @click="this.alertload=false">ok</md-button>
+      <md-button class="md-primary" @click="fail2()">ok</md-button>
     </md-snackbar>    
     <!-- <md-dialog-alert
         :md-active.sync="first"
@@ -87,6 +87,19 @@
         this.alertload=true;
         return;
       },
+      alert2(mess){
+        this.alertmessage=mess;
+        return;
+      },
+      fail(){
+        this.first = false;
+        this.loading=false;
+        this.jump();
+      },
+      fail2(){
+          this.alertload=false;
+          this.jump();
+      },
       auth() {
         this.loading = true;
         setTimeout(() => {
@@ -100,6 +113,18 @@
         });
       },
       async regis() {
+         if(this.studentInfo.FullName==""&&this.studentInfo.studentId==""){
+          this.alert2("请输入姓名和学号");
+          return;
+        }       
+        if(this.studentInfo.FullName==""){
+          this.alert2("请输入姓名");
+          return;
+        }
+        if(this.studentInfo.studentId==""){
+          this.alert2("请输入学号");
+          return;
+        }
         const network = {
           blockchain: 'eos',
           protocol: 'https',

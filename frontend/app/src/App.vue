@@ -19,7 +19,7 @@
         </div>
       </md-app-toolbar>
 
-      <md-app-drawer md-permanent="full" :md-active.sync="menuVisible">
+      <md-app-drawer md-permanent="full" :md-active.sync="menuVisible" class="md-right">
 
 
         <md-list>
@@ -27,28 +27,28 @@
             <md-icon>
               <router-link to="/" style=" text-decoration:none;">home</router-link>
             </md-icon>
-            <span class="md-list-item-text"><router-link style=" text-decoration:none;" to="/">首页</router-link></span>
+            <span class="md-list-item-text" @click="clickshouye()">首页</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>
               <router-link to="/account" style=" text-decoration:none;">face</router-link>
             </md-icon>
-            <span class="md-list-item-text"><router-link style=" text-decoration:none;" to="/account">我的账户</router-link></span>
+            <span class="md-list-item-text" @click="clickaccount()">我的账户</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>
               <router-link to="/multisig" style=" text-decoration:none;">receipt</router-link>
             </md-icon>
-            <span class="md-list-item-text"><router-link style=" text-decoration:none;" to="/multisig">相关提案</router-link></span>
+            <span class="md-list-item-text" @click="clickmultisig()">相关提案</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>
               <router-link to="/allmembers" style=" text-decoration:none;">supervisor_account</router-link>
             </md-icon>
-            <span class="md-list-item-text"><router-link style=" text-decoration:none;" to="/member">成员信息</router-link></span>
+            <span class="md-list-item-text" @click="clickmember()">成员信息</span>
           </md-list-item>
         </md-list>
       </md-app-drawer>
@@ -98,6 +98,9 @@
     padding-left: 0px;
     padding-right: 0px;
   }
+  .md-list-item-text{
+    color:rgba(0, 110, 255, 0.918);
+  }
 </style>
 
 <script>
@@ -140,6 +143,30 @@
       },
       goback() {
         router.go(-1);
+      },
+      clickshouye(){
+        this.menuVisible=false;
+        this.$router.push({
+          name: 'shouye',
+        });
+      },
+            clickaccount(){
+        this.menuVisible=false;
+        this.$router.push({
+          name: 'account',
+        });
+      },
+            clickmultisig(){
+        this.menuVisible=false;
+        this.$router.push({
+          name: 'multisig',
+        });
+      },
+      clickmember(){
+        this.menuVisible=false;
+        this.$router.push({
+          name: 'member',
+        });
       },
       async initialize() {
         if (this.$store.state.login == true) {

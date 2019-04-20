@@ -60,6 +60,7 @@
 <script>
 import Eos from 'eosjs'
 import {eos} from '../main'
+
 export default {
 
     data(){
@@ -102,7 +103,7 @@ export default {
         const account = this.$store.state.account;
         const scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
         console.log(account);
-        console.log(this.accountPermission[0]);
+        console.log(this.accountPermission);
 
         //try {
           const res = await scattereos.transaction(
@@ -133,7 +134,7 @@ export default {
                                         data: {                          
                                             from: "zjubcatest11",
                                             to: this.name,
-                                            quantity: "1.0000 ZJUBCA",//this.amount+" ZJUBCA",
+                                            quantity: "1.0000 AAA",//this.amount+" ZJUBCA",
                                             memo: "enrol$" //this.memo
                                         }
                                       }]

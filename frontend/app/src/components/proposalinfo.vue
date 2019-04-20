@@ -38,13 +38,15 @@
 
         <md-card-actions>
           <md-button @click="approve()">同意</md-button>
-          <md-button @click="disapprove()">驳回</md-button>
+          <md-button @click="approve()">驳回</md-button>
         </md-card-actions>
       </md-ripple>
     </md-card>
     </div>
 </template>
 <script>
+import Eos from 'eosjs'
+import {eos} from '../main'
 export default {
     data(){
         return{
@@ -55,6 +57,55 @@ export default {
       getParams() {
         this.item = this.$route.query.item;
       },
+      async approve(){
+                  const network = {
+          blockchain: 'eos',
+          protocol: 'https',
+          host: 'api-kylin.eoslaomao.com',
+          port: 443,
+          chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
+        };
+        console.log(this.$store.state.scatter);
+        const account = this.$store.state.account;
+        const Scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
+        console.log(account);
+                        await Scattereos.transaction({
+                            // actions:[{
+                            //         account:"eosio.msig",
+                            //         name:"approve",
+                            //         authorization:[{
+                            //           actor:account.name,
+                            //           permission:account.authority
+                            //         }],
+                            //         data:{
+                            //         proposer:"yangjiani233",
+                            //         proposal_name:"kongtou",
+                            //         level:{
+                            //             actor:account.name,
+                            //             permission:account.authority,
+                            //         },                                   
+                            //         }
+
+                            // }]
+                actions: [
+                    {
+                      account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                      name: "transfer",
+                      authorization: [{
+                        actor: this.$store.state.account.name,
+                        permission: this.$store.state.account.authority
+                      }
+                      ],
+                      data: {
+                        from: this.$store.state.account.name,
+                        to: 'zjubcatokens',
+                        quantity: "1.0000 ZJUBCA",
+                        memo: "enroll" 
+                      }
+                    }]     
+                        
+      })
+    }
     },
     created(){
         this.getParams();
