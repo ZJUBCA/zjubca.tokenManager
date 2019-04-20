@@ -39,6 +39,13 @@
 
           <md-list-item>
             <md-icon>
+              <router-link to="/multisig" style=" text-decoration:none;">receipt</router-link>
+            </md-icon>
+            <span class="md-list-item-text"><router-link style=" text-decoration:none;" to="/multisig">相关提案</router-link></span>
+          </md-list-item>
+
+          <md-list-item>
+            <md-icon>
               <router-link to="/allmembers" style=" text-decoration:none;">supervisor_account</router-link>
             </md-icon>
             <span class="md-list-item-text"><router-link style=" text-decoration:none;" to="/member">成员信息</router-link></span>
