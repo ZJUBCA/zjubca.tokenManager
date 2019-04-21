@@ -41,6 +41,13 @@
           <md-button @click="approve()">驳回</md-button>
         </md-card-actions>
       </md-ripple>
+       <md-snackbar :md-position="position"
+      :md-duration=4000
+      :md-active.sync="first" 
+      md-persistent>
+      <span>成功签署提案!</span>
+      <md-button class="md-primary" @click="goback()">ok</md-button>
+    </md-snackbar>
     </md-card>
     </div>
 </template>
@@ -50,7 +57,8 @@ import {eos} from '../main'
 export default {
     data(){
         return{
-
+        first: false,
+        position:'center',
         }
     },
     methods:{
@@ -69,6 +77,7 @@ export default {
         const account = this.$store.state.account;
         const Scattereos = await this.$store.state.scatter.eos(network, Eos, {expireInSeconds: 20});
         console.log(account);
+                       try{
                         await Scattereos.transaction({
                             // actions:[{
                             //         account:"eosio.msig",
@@ -104,7 +113,48 @@ export default {
                       }
                     }]     
                         
-      })
+      });
+                console.log(res);
+          let result = null;
+          this.loading = true;
+          let intv = setInterval(async () => {
+            try {
+              result = await scattereos.getTransaction(res.transaction_id)
+              if (result.block_num > 0) {
+                clearInterval(intv);
+                this.loading = false;
+                this.first=true;
+              }
+            } catch (e) {
+              //console.log(e);
+              console.log("fail");
+              this.first=true;
+            }
+          }, 1000);
+        } catch (e) {
+          let error = e;
+          try {
+            error = JSON.parse(e);
+          } catch (ee) {
+            // do nothing
+          }
+          if (error.message === 'nologin') {
+            //this.alert("请先登录")
+          } else if (error.code !== 402) {
+            if (error.error) {
+              //this.alert(error.error.details[0].message);
+              this.first=true;
+            } else {
+              //this.alert(error.message)
+              this.first=true;
+            }
+          }
+        }
+    },
+    goback(){
+        this.$router.push({
+          name: 'multisig',
+        });
     }
     },
     created(){

@@ -105,78 +105,99 @@ export default {
         console.log(account);
         console.log(this.accountPermission);
 
-        //try {
+        try {
           const res = await scattereos.transaction(
             {
-                            actions:[{
-                                    account:"eosio.msig",
-                                    name:"propose",
-                                    authorization:[{
-                                      actor:account.name,
-                                      permission:account.authority
-                                    }],
-                                    data:{
-                                    proposer:account.name,
-                                    proposal_name:this.proposal_name,
-                                    requested:this.accountPermission,
-                                    trx:{
-                                      "expiration": new Date(Date.parse(new Date()) + 1000 * 60 * 10),
-                                      "ref_block_num": 0,
-                                      "ref_block_prefix": 0,
-                                      "max_net_usage_words": 0,
-                                      "max_cpu_usage_ms": 0,
-                                      "delay_sec": 0,
-                                      "context_free_actions": [],
-                                      "actions":[{
-                                        account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
-                                        name: "transfer",
-                                        authorization: this.accountPermission,
-                                        data: {                          
-                                            from: "zjubcatest11",
-                                            to: this.name,
-                                            quantity: "1.0000 AAA",//this.amount+" ZJUBCA",
-                                            memo: "enrol$" //this.memo
-                                        }
-                                      }]
-                                    }                                           
-                                    }
+                            // actions:[{
+                            //         account:"eosio.msig",
+                            //         name:"propose",
+                            //         authorization:[{
+                            //           actor:account.name,
+                            //           permission:account.authority
+                            //         }],
+                            //         data:{
+                            //         proposer:account.name,
+                            //         proposal_name:this.proposal_name,
+                            //         requested:this.accountPermission,
+                            //         trx:{
+                            //           "expiration": new Date(Date.parse(new Date()) + 1000 * 60 * 10),
+                            //           "ref_block_num": 0,
+                            //           "ref_block_prefix": 0,
+                            //           "max_net_usage_words": 0,
+                            //           "max_cpu_usage_ms": 0,
+                            //           "delay_sec": 0,
+                            //           "context_free_actions": [],
+                            //           "actions":[{
+                            //             account: "zjubcatest11", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                            //             name: "transfer",
+                            //             authorization: this.accountPermission,
+                            //             data: {                          
+                            //                 from: "zjubcatest11",
+                            //                 to: this.name,
+                            //                 quantity: "1.0000 AAA",//this.amount+" ZJUBCA",
+                            //                 memo: "enrol$" //this.memo
+                            //             }
+                            //           }]
+                            //         }                                           
+                            //         }
 
 
-                            }]        
+                            // }]        
+                                            actions: [
+                    {
+                      account: "zjubcatokens", //has to be the smart contract name of the token you want to transfer - eosio for EOS or eosjackscoin for JKR for example
+                      name: "transfer",
+                      authorization: [{
+                        actor: this.$store.state.account.name,
+                        permission: this.$store.state.account.authority
+                      }
+                      ],
+                      data: {
+                        from: this.$store.state.account.name,
+                        to: 'zjubcamember',
+                        quantity: "1.0000 ZJUBCA",
+                        memo: "enroll$" 
+                      }
+                    }]     
             }
           );
-          // console.log(res);
-        //   let result = null;
-        //   this.loading = true;
-        //   let intv = setInterval(async () => {
-        //     try {
-        //       result = await scattereos.getTransaction(res.transaction_id)
-        //       if (result.block_num > 0) {
-        //         clearInterval(intv);
-        //         this.loading = false;
-        //         this.second=true;
-        //       }
-        //     } catch (e) {
-        //       console.log(e);
-        //     }
-        //   }, 1000);
-        // } catch (e) {
-        //   let error = e;
-        //   try {
-        //     error = JSON.parse(e);
-        //   } catch (ee) {
-        //     // do nothing
-        //   }
-        //   if (error.message === 'nologin') {
-        //     this.alert("请先登录")
-        //   } else if (error.code !== 402) {
-        //     if (error.error) {
-        //       this.alert(error.error.details[0].message);
-        //     } else {
-        //       this.alert(error.message)
-        //     }
-        //   }
-        // }
+         // this.first=true;
+          console.log(res);
+          let result = null;
+          this.loading = true;
+          let intv = setInterval(async () => {
+            try {
+              result = await scattereos.getTransaction(res.transaction_id)
+              if (result.block_num > 0) {
+                clearInterval(intv);
+                this.loading = false;
+                this.first=true;
+              }
+            } catch (e) {
+              //console.log(e);
+              console.log("fail");
+              this.first=true;
+            }
+          }, 1000);
+        } catch (e) {
+          let error = e;
+          try {
+            error = JSON.parse(e);
+          } catch (ee) {
+            // do nothing
+          }
+          if (error.message === 'nologin') {
+            //this.alert("请先登录")
+          } else if (error.code !== 402) {
+            if (error.error) {
+              //this.alert(error.error.details[0].message);
+              this.first=true;
+            } else {
+              //this.alert(error.message)
+              this.first=true;
+            }
+          }
+        }
         },
       alert(mess){
         this.alertmessage=mess;

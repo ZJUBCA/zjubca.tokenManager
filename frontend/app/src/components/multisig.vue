@@ -82,21 +82,21 @@
         proposals: [
           {
             proposal_name: "kongtou",
-            proposer: "yangjiani233",
+            proposer: "zjulowesyang",
             from: "zjubcatokens",
             to: "yangjiani233",
             amount: "200.0000 ZJUBCA"
           },
           {
             proposal_name: "reward",
-            proposer: "yangjiani233",
+            proposer: "zjulowesyang",
             from: "zjubcatokens",
             to: "elsakong1234",
             amount: "10000.0000 ZJUBCA"
           },
           {
             proposal_name: "regis",
-            proposer: "yangjiani233",
+            proposer: "zjulowesyang",
             from: "zjubcatokens",
             to: "tkdteokaidik",
             amount: "10000.0000 ZJUBCA"
