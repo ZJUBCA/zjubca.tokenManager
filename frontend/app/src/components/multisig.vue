@@ -8,7 +8,7 @@
             </md-speed-dial-target>
             </md-speed-dial>
             <div style="padding: 1vw 10vw 10vw;width:100vw">
-    <form class="bs-example bs-example-form" role="form">
+    <form class="bs-example bs-example-form" role="form" onsubmit="return false;">
         <div class="row">
             <div class="col-lg-6">
                 <div class="input-group">
@@ -69,21 +69,21 @@ export default {
             proposals:[
             {
                 proposal_name:"kongtou",
-                proposer:"yangjiani233",
+                proposer:"zjulowesyang",
                 from:"zjubcatokens",
-                to:"yangjiani233",
+                to:"zjulowesyang",
                 amount:"200.0000 ZJUBCA"
             },
             {
                 proposal_name:"reward",
-                proposer:"yangjiani233",
+                proposer:"zjulowesyang",
                 from:"zjubcatokens",
                 to:"elsakong1234",
                 amount:"10000.0000 ZJUBCA"
             },
             {
                 proposal_name:"regis",
-                proposer:"yangjiani233",
+                proposer:"zjulowesyang",
                 from:"zjubcatokens",
                 to:"tkdteokaidik",
                 amount:"10000.0000 ZJUBCA"
