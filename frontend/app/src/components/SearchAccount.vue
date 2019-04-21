@@ -105,7 +105,7 @@
         transactions: [],
         studentname: "",
         registration_date: "",
-        loading:false,
+        loading: false,
       }
     },
     computed: {
@@ -119,7 +119,7 @@
 
     methods: {
       async getAccountInfo() {
-        this.loading=true;
+        this.loading = true;
         await eos.getTableRows({
           code: "zjubcamember",
           scope: "zjubcamember",
@@ -167,7 +167,7 @@
           }
         });
         this.ok = !this.ok;
-        this.loading=false;
+        this.loading = false;
       },
       onSelect(item) {
         //this.$store.state.item=item;
