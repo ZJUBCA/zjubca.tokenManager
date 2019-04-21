@@ -89,6 +89,7 @@
       },
       alert2(mess){
         this.alertmessage=mess;
+        this.alertload=true;
         return;
       },
       fail(){
